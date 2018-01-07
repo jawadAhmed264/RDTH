@@ -31,13 +31,7 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"><span style="font-family: 'Lato', sans-serif;"><i class="fa fa-television" aria-hidden="true"></i>  R-DTH</span></a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Packages</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">Recharge</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">FeedBack</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Customer Care</a></li>
-                </ul>
+                @await Html.PartialAsync("_NavMenu")
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -47,7 +41,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - RDTH</p>
+            <p>&copy; 2018 - RDTH Developed By Jawad Ahmed</p>
         </footer>
     </div>
 

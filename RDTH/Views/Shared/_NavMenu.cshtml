@@ -1,0 +1,51 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using RDTH.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+@if (User.IsInRole("User"))
+{
+    <ul class="nav navbar-nav">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">MyPackage</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="About">SetBox</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Recharge</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Payments</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Book Movie</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FeedBack</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Locate Dealer</a></li>
+    </ul>
+}
+@if (User.IsInRole("Distributer"))
+{
+    <ul class="nav navbar-nav">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">SetBox</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="About">My Orders</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">My Payments</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
+    </ul>
+}
+@if (User.IsInRole("Dealer"))
+{
+    <ul class="nav navbar-nav">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">SetBox</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="About">My Orders</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">My Payments</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Locate Distributers</a></li>
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav">
+        <li><a asp-area="" asp-controller="Home" asp-action="Index">Packages</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="About">Recharge</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FeedBack</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
+        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Customer Care</a></li>
+    </ul>
+}
