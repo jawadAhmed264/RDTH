@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RDTH.Data.Models
+﻿namespace RDTH.Data.Models
 {
-    class Faq
+    public class Faq
     {
+        public int Id { get; set; }
+        public string Question { get; set; }
+        public string Answer { get; set; }
     }
 }

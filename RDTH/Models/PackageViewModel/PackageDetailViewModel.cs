@@ -1,6 +1,6 @@
-﻿namespace RDTH.Data.Models
+﻿namespace RDTH.Models.PackageViewModel
 {
-    public class Package
+    public class PackageDetailViewModel
     {
         public int Id { get; set; }
         public string PackageName { get; set; }
@@ -11,6 +11,5 @@
         public int DocumentariesChannel { get; set; }
         public int Charges { get; set; }
         public string ImageUrl { get; set; }
-
     }
 }

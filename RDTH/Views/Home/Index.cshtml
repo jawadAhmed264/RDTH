@@ -1,4 +1,6 @@
-﻿@{
+﻿@model RDTH.Models.HomeViewModel.HomeIndexViewModel
+
+@{
     ViewData["Title"] = "Home";
 }
 
@@ -89,12 +91,37 @@
 </div>
 <br />
 <hr />
-<div class="row">
-    <h2 class="text-center text-info">Our SetBox</h2><br />
+<div class="row" style="background-color:lightgray;color:black">
+    <h2 class="text-center text-warning">SetBoxes</h2><br />
+    @foreach (var setbox in Model.SetBoxes)
+    {
+        <div class="col-md-4 col-sm-6">
+            <a>
+                <img src="@Url.Content(setbox.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+            </a>
+            <h3 class="text-warning">@setbox.Name</h3>
+            <p>@Html.Raw(setbox.Specification.ToString().Replace(",", "<br />"))</p>
+            <h3 style="border:1px solid orange" class="text-danger text-center">Rs @setbox.Price.ToString("0.####")</h3>
+        </div>
+    }
 </div>
 <hr />
-<div class="row">
+<div class="row" style="background-color:dimgray;color:black">
     <h2 class="text-center text-info">New Packages</h2><br />
+    @foreach (var package in Model.Packages)
+    {
+        <div class="col-md-4 col-sm-6">
+            <a asp-area="" asp-controller="Package" asp-action="Detail" asp-route-id="@package.Id">
+                <img src="@Url.Content(package.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+            </a>
+            <h3 class="text-warning">@package.PackageName</h3>
+            <p style="color:white;font-family:'Lato',sans-serif;font-size:14px">
+                Channels :@package.NoOfChannels<br />News Channel :@package.NewsChannel<br />
+                Sports Channel :@package.SportsChannel<br />Entertainment Channel :@package.EntertainmentChannel<br />
+            </p>
+            <h3 style="border:1px solid orange" class="text-info text-center">Rs @package.Charges</h3>
+        </div>
+    }
 </div>
 <hr />
 <div class="row">
@@ -111,24 +138,23 @@
         </div>
     </div>
 </div>
-<div class="row" style="margin-top:60px">
-    <h2 class="text-center text-info">Contact Us</h2><br />
+<div class="row" style="margin-top:60px;background-color:dimgray;color:black">
+    <h2 class="text-center text-info">Contact Us</h2><br /><br />
     <div class="col-md-4 col-md-push-2 col-sm-6">
-        <img src="~/images/dealerLocate.gif" class="img-responsive img-circle" /><br />
+        <a href="#">
+            <img src="~/images/dealerLocate.gif" class="img-responsive img-circle" /><br />
+        </a>
         <h3 class="text-warning">Customer Care Center</h3>
-        <p>
-            Find Customer care center near you <a class="btn btn-default" href="#">Find</a>
-        </p>
     </div>
     <div class="col-md-4 col-md-push-3 col-sm-6">
         <img src="~/images/tollFree.png" class="img-responsive img-circle" /><br />
-        <h3 class="text-warning">24 Hours Toll Free Number</h3>
-        <h4>0900-8877887</h4>
+        <h3 class="text-warning">24 Hours Toll Free</h3>
+        <h4 class="text-info"><span class="fa fa-phone"></span> 0900-1112221</h4>
     </div>
 </div>
 <hr />
 <div class="row" style="margin-top:100px">
-    <h2 class="text-left text-info">About Us</h2><br />
+    <h2 class="text-left text-info text-center">About Us</h2><br /><br />
     <div class="col-md-7">
         <p style="font-family: 'Lato', sans-serif;font-size:20px;text-align:justify">R-DTH is a DTH company which uses latest MPEG-4 technology to increase the broadcast capacity. The company is supported by Iredeto’s conditional access solution to manage content and revenues in satellite broadcasting venture. R-DTH is based on its convergent multi-service capabilities and proven real time scalability, introducing new services for the customer.</p>
     </div>

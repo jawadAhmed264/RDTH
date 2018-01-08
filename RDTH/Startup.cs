@@ -10,6 +10,7 @@ using RDTH.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using RDTH.Service;
 
 namespace RDTH
 {
@@ -31,6 +32,12 @@ namespace RDTH
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<RDTHDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSingleton(Configuration);
+           
+            //Add Services Here
+            services.AddScoped<ISetBoxService,SetBoxService>();
+            services.AddScoped<IPackageService,PackageService>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

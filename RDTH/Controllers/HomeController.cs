@@ -1,28 +1,30 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using RDTH.Data;
 using RDTH.Models;
+using RDTH.Models.HomeViewModel;
 
 namespace RDTH.Controllers
 {
     public class HomeController : Controller
     {
+        private ISetBoxService _setBoxService;
+        private IPackageService _packageService;
+
+        public HomeController(ISetBoxService setBoxService, IPackageService packageService)
+        {
+            _setBoxService = setBoxService;
+            _packageService = packageService;
+        }
         public IActionResult Index()
         {
-            return View();
-        }
+            var model = new HomeIndexViewModel
+            {
+                Packages = _packageService.GetLatest(),
+                SetBoxes = _setBoxService.GetLatest()
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
+            };
+            return View(model);
         }
 
         public IActionResult Error()

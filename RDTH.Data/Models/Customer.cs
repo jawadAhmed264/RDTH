@@ -1,7 +1,5 @@
 ﻿using RDTH.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace RDTH.Data.Models
 {
@@ -15,5 +13,8 @@ namespace RDTH.Data.Models
         //navigation properties
         public virtual CustomerCard CustomerCard { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
+        public virtual IEnumerable<Payment> Payments { get; set; }
+        public virtual IEnumerable<Order> Orders { get; set; }
+        public virtual IEnumerable<MovieOnDemand> MoviesOnDemand { get; set; }
     }
 }

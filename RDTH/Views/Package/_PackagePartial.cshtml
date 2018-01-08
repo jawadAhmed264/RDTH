@@ -1,0 +1,13 @@
+﻿@model RDTH.Models.PackageViewModel.PackageDetailViewModel
+
+<div class="col-md-4 col-sm-6">
+    <a asp-area="" asp-controller="Package" asp-action="Detail" asp-route-id="@Model.Id">
+        <img src="@Url.Content(Model.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+    </a>
+    <h3 class="text-warning">@Model.PackageName</h3>
+    <p style="color:white;font-family:'Lato',sans-serif;font-size:14px">
+        Channels :@Model.NoOfChannels<br />News Channel :@Model.NewsChannel<br />
+        Sports Channel :@Model.SportsChannel<br />Entertainment Channel :@Model.EntertainmentChannel<br />
+    </p>
+    <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Charges</h3>
+</div>
