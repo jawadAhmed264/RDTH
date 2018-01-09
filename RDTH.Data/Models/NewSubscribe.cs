@@ -10,5 +10,8 @@ namespace RDTH.Data.Models
         public string Address { get; set; }
         public DateTime ApplyDate { get; set; }
         public Status Status { get; set; }
+
+        public virtual Package Package { get; set; }
+        public virtual SetBox SetBox { get; set; }
     }
 }

@@ -38,6 +38,9 @@ namespace RDTH
             //Add Services Here
             services.AddScoped<ISetBoxService,SetBoxService>();
             services.AddScoped<IPackageService,PackageService>();
+            services.AddScoped<ISubscribeService, SubscribeService>();
+            services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IFeedback, FeedbackService>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();

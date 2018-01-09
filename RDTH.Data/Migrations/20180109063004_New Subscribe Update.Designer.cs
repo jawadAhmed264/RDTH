@@ -11,9 +11,10 @@ using System;
 namespace RDTH.Data.Migrations
 {
     [DbContext(typeof(RDTHDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180109063004_New Subscribe Update")]
+    partial class NewSubscribeUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -539,7 +540,7 @@ namespace RDTH.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Status");
+                    b.ToTable("ViewStatus");
                 });
 
             modelBuilder.Entity("RDTH.Models.ApplicationUser", b =>

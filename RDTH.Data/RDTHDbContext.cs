@@ -28,7 +28,7 @@ namespace RDTH.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Recharge> RechargeHistory { get; set; }
         public DbSet<CustomerPackage> CustomerPackages { get; set; }
-        public DbSet<Status> ViewStatus { get; set; }
+        public DbSet<Status> Status { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

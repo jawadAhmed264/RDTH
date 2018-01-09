@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using RDTH.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (User.IsInRole("User"))
+    {
+        <a href="#" class="btn btn-default">Change SetBox</a>
+    }
+    @if (User.IsInRole("Distributer"))
+    {
+        <input type="number" name="qty" id="qty" /><br />
+        <a href="#" class="btn btn-default">Add to Cart</a>
+    }
+    @if (User.IsInRole("Dealer"))
+    {
+        <input type="number" name="qty" id="qty" /><br />
+        <a href="#" class="btn btn-default">Add to Cart</a>
+    }
+
+}
+else
+{
+    <a asp-area="" asp-controller="Subscribe" asp-action="" class="btn btn-default">Subscribe</a>
+}

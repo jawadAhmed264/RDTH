@@ -1,0 +1,10 @@
+﻿@model RDTH.Models.SetBoxViewModel.SetBoxDetailModel
+
+<div class="col-md-4 col-sm-6">
+    <a asp-area="" asp-controller="Setbox" asp-action="Detail" asp-route-id="@Model.Id">
+        <img src="@Url.Content(Model.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+    </a>
+    <h3 class="text-warning">@Model.Name</h3>
+    <p>@Html.Raw(Model.Specification.ToString().Replace(",", "<br />"))</p>
+    <h3 style="border:1px solid orange" class="text-danger text-center">Rs @Model.Price.ToString("0.####")</h3>
+</div>

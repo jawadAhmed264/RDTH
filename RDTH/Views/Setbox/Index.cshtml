@@ -1,0 +1,15 @@
+﻿@model RDTH.Models.SetBoxViewModel.SetBoxIndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Our SetBox Devices</h2>
+
+<div class="row">
+    @foreach (var setBox in Model.SetBoxList)
+    {
+        @await Html.PartialAsync("_SetBoxPartial", setBox)
+    }
+</div>
+
+

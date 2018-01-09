@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using RDTH.Models
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (User.IsInRole("User"))
+    {
+        <a href="#" class="btn btn-default">Change Package</a>
+    }
+    @if (User.IsInRole("Distributer"))
+    {
+    }
+    @if (User.IsInRole("Dealer"))
+    {
+    }
+}
+else
+{
+    <a asp-area="" asp-controller="Subscribe" asp-action="" class="btn btn-default">Subscribe</a>
+}
