@@ -41,7 +41,8 @@ namespace RDTH
             services.AddScoped<ISubscribeService, SubscribeService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IFeedback, FeedbackService>();
-
+            services.AddScoped<IFaq, FaqService>();
+            services.AddScoped<IDealerService, DealerService>();
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

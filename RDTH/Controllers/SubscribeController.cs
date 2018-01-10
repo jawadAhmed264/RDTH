@@ -42,7 +42,7 @@ namespace RDTH.Controllers
                 _subService.AddSubscribe(new NewSubscribe()
                 {
                     OwnerName = model.OwnerName,
-                    Address = model.OwnerName,
+                    Address = model.Address,
                     ApplyDate = DateTime.Now,
                     ContactNumber = model.ContactNumber,
                     Package = _packageService.GetById(model.PackageId),

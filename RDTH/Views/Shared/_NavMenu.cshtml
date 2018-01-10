@@ -15,8 +15,8 @@
         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Payments</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Book Movie</a></li>
         <li><a asp-area="" asp-controller="Feedback" asp-action="">FeedBack</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Locate Dealer</a></li>
+        <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
+        <li><a asp-area="" asp-controller="CustomerCare" asp-action="">Locate Dealer</a></li>
     </ul>
 }
 @if (User.IsInRole("Distributer"))
@@ -25,7 +25,7 @@
         <li><a asp-area="" asp-controller="Setbox" asp-action="Index">SetBox</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="About">My Orders</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact">My Payments</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
+        <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="glyphicon glyphicon-shopping-cart"> </i><span class="badge">0</span></a></li>
     </ul>
 }
@@ -35,8 +35,8 @@
         <li><a asp-area="" asp-controller="Setbox" asp-action="Index">SetBox</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="About">My Orders</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact">My Payments</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Locate Distributers</a></li>
+        <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
+        <li><a asp-area="" asp-controller="CustomerCare" asp-action="LocateDistributer">Locate Distributers</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact"><i class="glyphicon glyphicon-shopping-cart"> </i><span class="badge">0</span></a></li>
     </ul>
     }
@@ -48,7 +48,7 @@ else
         <li><a asp-area="" asp-controller="Setbox" asp-action="Index">SetBox</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="About">Recharge</a></li>
         <li><a asp-area="" asp-controller="Feedback" asp-action="">FeedBack</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">FAQ</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Customer Care</a></li>
+        <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
+        <li><a asp-area="" asp-controller="CustomerCare" asp-action="">Customer Care</a></li>
     </ul>
 }

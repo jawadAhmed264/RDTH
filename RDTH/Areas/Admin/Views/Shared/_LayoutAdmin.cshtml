@@ -10,7 +10,8 @@
     <title>@ViewData["Title"] - R-DTH Admin Panel</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    @RenderSection("Styles", required: false)
     <!-- Custom CSS -->
     <link href="~/css/sb-admin.css" rel="stylesheet">
     <!-- Morris Charts CSS -->
@@ -19,11 +20,12 @@
     <link href="~/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="~/css/AdminStyle.css" rel="stylesheet" type="text/css" />
 
+
 </head>
 <body>
     <div id="wrapper">
         <!-- Navigation -->
-       <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -40,11 +42,11 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a asp-area="Admin" asp-controller="Admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <!--Html.ActionLink("Link Text", "ActionName", "ControllerName", new { Area = "AreaName" }, new{})-->
-                        <a href="tables.html"><i class="fa fa-fw fa-plus"></i>New Subscription</a>
+                        <a asp-area="Admin" asp-controller="SubscribeAdmin" asp-action="Index"><i class="fa fa-fw fa-plus"></i>New Subscription</a>
                     </li>
                     <li>
                         <a href="forms.html"><i class="fa fa-fw fa-user"></i> Dealers</a>
@@ -102,14 +104,15 @@
 
 
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
     <!-- Bootstrap Core JavaScript -->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    @RenderSection("Scripts", required: false)
     <!-- Morris Charts JavaScript -->
     <script src="~/js/morris.js"></script>
     <script src="~/js/raphael.min.js"></script>
     <script src="~/js/morris-data.js"></script>
 
-    @RenderSection("Scripts", required: false)
+
 </body>
 </html>
