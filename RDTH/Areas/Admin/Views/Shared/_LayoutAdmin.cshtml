@@ -34,7 +34,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">R-DTH Admin Panel</a>
+                <a class="navbar-brand" asp-area="Admin" asp-controller="Admin">R-DTH Admin Panel</a>
             </div>
             <!-- Top Menu Items -->
             @await Html.PartialAsync("_LoginPartialAdmin")
@@ -49,40 +49,40 @@
                         <a asp-area="Admin" asp-controller="SubscribeAdmin" asp-action="Index"><i class="fa fa-fw fa-plus"></i>New Subscription</a>
                     </li>
                     <li>
-                        <a href="forms.html"><i class="fa fa-fw fa-user"></i> Dealers</a>
+                        <a asp-area="Admin" asp-controller="Dealer" asp-action="Index"><i class="fa fa-fw fa-user"></i> Dealers</a>
                     </li>
                     <li>
-                        <a href="bootstrap-elements.html"><i class="fa fa-fw fa-user"></i> Distributers</a>
+                        <a asp-area="Admin" asp-controller="Distributer" asp-action="Index"><i class="fa fa-fw fa-user"></i> Distributers</a>
                     </li>
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-users"></i> Customers Accounts</a>
+                        <a asp-area="Admin" asp-controller="Customer" asp-action="Index"><i class="fa fa-fw fa-users"></i> Customers Accounts</a>
                     </li>
                     <li>
-                        <a href="bootstrap-grid.html"><i class="fa fa-fw fa-credit-card"></i> Customer Cards</a>
+                        <a asp-area="Admin" asp-controller="CustomerCard" asp-action="Index"><i class="fa fa-fw fa-credit-card"></i> Customer Cards</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-bar-chart-o"></i> Orders</a>
+                        <a asp-area="Admin" asp-controller="Order" asp-action="Index"><i class="fa fa-fw fa-bar-chart-o"></i> Orders</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-dollar"></i> Payments</a>
+                        <a asp-area="Admin" asp-controller="Payment" asp-action="Index"><i class="fa fa-fw fa-dollar"></i> Payments</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-dollar"></i> Recharge Details</a>
+                        <a asp-area="Admin" asp-controller="Recharge" asp-action="Index"><i class="fa fa-fw fa-dollar"></i> Recharge Details</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-edit"></i> Packages</a>
+                        <a asp-area="Admin" asp-controller="Package" asp-action="Index"><i class="fa fa-fw fa-edit"></i> Packages</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-edit"></i> SetBox</a>
+                        <a asp-area="Admin" asp-controller="SetBox" asp-action="Index"><i class="fa fa-fw fa-edit"></i> SetBox</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-film"></i> Movies On Demand</a>
+                        <a asp-area="Admin" asp-controller="MOD" asp-action="Index"><i class="fa fa-film"></i> Movies On Demand</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-facebook"></i> FAQ</a>
+                        <a asp-area="Admin" asp-controller="Faq" asp-action="Index"><i class="fa fa-fw fa-facebook"></i> FAQ</a>
                     </li>
                     <li>
-                        <a href="charts.html"><i class="fa fa-fw fa-reply"></i> FeedBacks</a>
+                        <a asp-area="Admin" asp-controller="Feedback" asp-action="Index"><i class="fa fa-fw fa-reply"></i> FeedBacks</a>
                     </li>
 
                 </ul>

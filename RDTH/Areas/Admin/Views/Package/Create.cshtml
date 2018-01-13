@@ -1,0 +1,68 @@
+﻿@model RDTH.Data.Models.Package
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>Package</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PackageName" class="control-label"></label>
+                <input asp-for="PackageName" class="form-control" />
+                <span asp-validation-for="PackageName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfChannels" class="control-label"></label>
+                <input asp-for="NoOfChannels" class="form-control" />
+                <span asp-validation-for="NoOfChannels" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NewsChannel" class="control-label"></label>
+                <input asp-for="NewsChannel" class="form-control" />
+                <span asp-validation-for="NewsChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EntertainmentChannel" class="control-label"></label>
+                <input asp-for="EntertainmentChannel" class="form-control" />
+                <span asp-validation-for="EntertainmentChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SportsChannel" class="control-label"></label>
+                <input asp-for="SportsChannel" class="form-control" />
+                <span asp-validation-for="SportsChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DocumentariesChannel" class="control-label"></label>
+                <input asp-for="DocumentariesChannel" class="form-control" />
+                <span asp-validation-for="DocumentariesChannel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charges" class="control-label"></label>
+                <input asp-for="Charges" class="form-control" />
+                <span asp-validation-for="Charges" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageUrl" class="control-label"></label>
+                <input asp-for="ImageUrl" class="form-control" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

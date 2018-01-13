@@ -1,0 +1,46 @@
+﻿@model RDTH.Models.PackageViewModel.MyPackageViewModel
+@{
+    ViewData["Title"] = "MyPackage";
+}
+
+<h2>My Package Information</h2>
+
+<div class="row">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Url.Content(Model.MyPackage.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-warning">@Model.MyPackage.PackageName</h3>
+                <p style="color:white;font-family:'Lato',sans-serif;font-size:14px">
+                    Channels :@Model.MyPackage.NoOfChannels
+                </p>
+                <p class="text-danger">Expiration Date :@Model.GetExpiration.ToString("dd-MMM-yyyy")</p>
+                <p class="text-warning">Status :@Model.State</p>
+                <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.MyPackage.Charges / Month</h3><br />
+                <a class="btn btn-warning" asp-action="index">Browse for More</a> |
+                <a class="btn btn-danger" asp-action="index">Recharge</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="@Url.Content(Model.MySetBox.ImageUrl)" class="img-responsive" alt="Sample Image" style="height:250px;width:350px;" /><br />
+            </div>
+            <div class="col-md-6">
+                <h3 class="text-warning">@Model.MySetBox.Name</h3>
+                <p style="color:white;font-family:'Lato',sans-serif;font-size:14px">
+                    Channels :@Model.MySetBox.Specification
+                </p>
+                <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.MySetBox.Price</h3><br />
+                <a class="btn btn-warning" asp-controller="Setbox" asp-action="index">Browse for More</a>
+            </div>
+        </div>
+    </div>
+</div>
+

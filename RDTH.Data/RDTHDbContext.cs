@@ -11,7 +11,7 @@ namespace RDTH.Data
             : base(options)
         {
         }
-
+         
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Dealer> Dealers { get; set; }
         public DbSet<Distributer> Distributers { get; set; }

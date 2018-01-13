@@ -60,8 +60,8 @@
                     @Html.DisplayFor(modelItem => item.Status.Name)
                 </td>
                 <td>
-                    <a asp-area="Admin" asp-controller="CustomerCards" asp-action="Create" asp-route-id="@item.Id">Create Card</a>
-                    | <a asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete Request</a>
+                    <a asp-area="Admin" asp-controller="CustomerCard" asp-action="Create" asp-route-id="@item.Id">Create Card</a>
+                    | <a asp-area="Admin" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
 
                 </td>
             </tr>

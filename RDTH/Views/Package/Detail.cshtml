@@ -16,11 +16,7 @@
                 Channels :@Model.NoOfChannels<br />News Channel :@Model.NewsChannel<br />
                 Sports Channel :@Model.SportsChannel<br />Entertainment Channel :@Model.EntertainmentChannel<br />
             </p>
-            <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Charges</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1 pull-left">
+            <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Charges</h3><br />
             @await Html.PartialAsync("_Selection")
         </div>
     </div>

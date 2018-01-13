@@ -1,0 +1,46 @@
+﻿@model RDTH.Models.CustomerCareViewModel.CustomerCareIndexModel
+
+@{
+    ViewData["Title"] = "Find Customer Care Center Near You";
+}
+
+<h2>Find Distributers</h2>
+
+<div class="container" style="background-color:lightgray;padding:30px">
+    <table class="table table-condensed" id="catalogIndexTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Dealer Name</th>
+                <th>Address</th>
+                <th>Telephone</th>
+                <th>City</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dealer in Model.DealersList)
+            {
+                <tr style="color:black">
+                    <td><i class="fa fa-user"></i></td>
+                    <td>@(dealer.FirstName + " " + dealer.LastName)</td>
+                    <td>@dealer.Address</td>
+                    <td>@dealer.Telephone</td>
+                    <td>@dealer.City</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Styles {
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#catalogIndexTable').DataTable();
+        });
+    </script>
+}

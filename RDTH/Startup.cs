@@ -36,6 +36,7 @@ namespace RDTH
             services.AddSingleton(Configuration);
            
             //Add Services Here
+
             services.AddScoped<ISetBoxService,SetBoxService>();
             services.AddScoped<IPackageService,PackageService>();
             services.AddScoped<ISubscribeService, SubscribeService>();
@@ -43,6 +44,12 @@ namespace RDTH
             services.AddScoped<IFeedback, FeedbackService>();
             services.AddScoped<IFaq, FaqService>();
             services.AddScoped<IDealerService, DealerService>();
+            services.AddScoped<IDistributerService, DistributerServicecs>();
+            services.AddScoped<ICardService, CardService>();
+            services.AddScoped<ICustomerPackage, CustomerPackageService>();
+            services.AddScoped<ICustomer, CustomerService>();
+            services.AddScoped<IMod, ModService>();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

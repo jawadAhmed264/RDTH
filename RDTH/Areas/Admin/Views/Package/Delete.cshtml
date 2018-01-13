@@ -1,0 +1,69 @@
+﻿@model RDTH.Data.Models.Package
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Package</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PackageName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PackageName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NoOfChannels)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NoOfChannels)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NewsChannel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NewsChannel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EntertainmentChannel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EntertainmentChannel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SportsChannel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SportsChannel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DocumentariesChannel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DocumentariesChannel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Charges)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Charges)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ImageUrl)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

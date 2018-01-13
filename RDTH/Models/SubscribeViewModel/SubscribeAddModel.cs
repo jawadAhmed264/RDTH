@@ -1,6 +1,4 @@
-﻿using RDTH.Data.Models;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RDTH.Models.SubscribeViewModel
 {

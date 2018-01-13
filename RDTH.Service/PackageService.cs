@@ -1,6 +1,6 @@
-﻿using RDTH.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using RDTH.Data;
 using RDTH.Data.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +25,7 @@ namespace RDTH.Service
 
         public Package GetById(int id)
         {
-            return GetAll().FirstOrDefault(p=>p.Id==id);
+            return GetAll().FirstOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<Package> GetLatest()

@@ -1,0 +1,70 @@
+﻿@using RDTH.Areas.Admin.Models.ModViewModel
+@model ModIndexModel
+
+@{
+    ViewData["Title"] = "Movies On Demand Request";
+}
+
+<h2>Movies On Demand Request</h2>
+
+<table class="table table-bordered" id="catalogIndexTable">
+    <thead>
+        <tr>
+            <th>
+                Movie
+            </th>
+            <th>
+                Show Time
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Customer Card
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Mod)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Movie)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MovieTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card.OwnerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Card.CardNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                <a asp-action="Viewed" asp-route-id="@item.Id">Viewed</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+@section Styles {
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#catalogIndexTable').DataTable();
+        });
+    </script>
+}

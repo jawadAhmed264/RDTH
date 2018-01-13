@@ -15,12 +15,9 @@
             <p style="color:white;font-family:'Lato',sans-serif;font-size:14px">
                 @Html.Raw(Model.Specification.ToString().Replace(",", "<br />"))
             </p>
-            <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Price</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-1 pull-left">
+            <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Price</h3><br />
             @await Html.PartialAsync("_Selection")
         </div>
     </div>
+
 </div>
