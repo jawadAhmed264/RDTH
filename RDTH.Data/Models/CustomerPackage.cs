@@ -10,6 +10,7 @@ namespace RDTH.Data.Models
         public Status Status { get; set; }
         //navigational properties
         public Customer Customer { get; set; }
+        public CustomerCard CustomerCard { get; set; }
         public Package Package { get; set; }
 
     }

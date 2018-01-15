@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RDTH.Models.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [Required]
+        [Remote("IsCardAvailable", "Recharge", ErrorMessage = "Customer Card Invalid")]
+        [RegularExpression(@"^[0-9]{4}-[0-9]{4}-[0-9]{4}$", ErrorMessage = "Input Card Pattern (XXXX-XXXX-XXXX)")]
+        [Display(Name = "Your Customer Card Number")]
+        public string Customercard { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

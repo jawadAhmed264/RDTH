@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using RDTH.Models
+@model RDTH.Models.SetBoxViewModel.SetBoxDetailModel
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -8,17 +9,26 @@
 {
     @if (User.IsInRole("User"))
     {
-        <a href="#" class="btn btn-default">Change SetBox</a>
+        <a asp-controller="Setbox" asp-action="ChangeSetBox" asp-route-setBoxId="@Model.Id" class="btn btn-default">Change SetBox</a>
     }
     @if (User.IsInRole("Distributer"))
     {
-        <input type="number" name="qty" id="qty" />
-        <a href="#" class="btn btn-default">Add to Cart</a>
+        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+            <input type="hidden" name="Id" id="Id" />
+            <label for="qty">Quantity</label>
+            <input type="number" name="qty" id="qty" min="1" max="20" value="1" class="form-control" style="width:80px;" />
+            <input type="submit" class="btn btn-primary" value="Add To Cart"/>
+        </form>
     }
     @if (User.IsInRole("Dealer"))
     {
-        <input type="number" name="qty" id="qty" />
-        <a href="#" class="btn btn-default">Add to Cart</a>
+        <form asp-controller="Cart" asp-action="AddToCart" method="post">
+            <input type="hidden" name="Id" id="Id" />
+            <label for="qty" class="text-primary">Quantity</label>
+            <input type="number" name="qty" id="qty" min="1" max="20" value="1" class="form-control" style="width:80px;" /><br />
+            <input type="submit" class="btn btn-warning" value="Add To Cart" />
+        </form>
+
     }
 
 }

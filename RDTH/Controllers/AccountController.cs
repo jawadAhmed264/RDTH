@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RDTH.Data;
+using RDTH.Data.Models;
 using RDTH.Models;
 using RDTH.Models.AccountViewModels;
 using RDTH.Services;
@@ -21,17 +23,23 @@ namespace RDTH.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
+        private readonly ICardService _cardService;
+        private readonly ICustomer _customerService;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IEmailSender emailSender,
-            ILogger<AccountController> logger)
+            ILogger<AccountController> logger,
+            ICustomer customerService,
+            ICardService cardService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+            _customerService = customerService;
+            _cardService = cardService;
         }
 
         [TempData]
@@ -217,27 +225,43 @@ namespace RDTH.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
+                var card = _cardService.GetCardByNumber(model.Customercard);
 
-                if (result.Succeeded)
+                if (!_customerService.IsCustomer(card.Id))
                 {
-                    await _userManager.AddToRoleAsync(user, "User");
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var result = await _userManager.CreateAsync(user, model.Password);
+
+                    string[] fullname = card.OwnerName.Split(" ");
+
+                    if (result.Succeeded)
+                    {
+                        _customerService.Add(new Customer
+                        {
+                            ApplicationUser = user,
+                            CustomerCard = card,
+                            FirstName = fullname[0],
+                            LastName = fullname[1],
+                        });
+                        await _userManager.AddToRoleAsync(user, "User");
+                    }
+
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
+
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("User created a new account with password.");
+                        return RedirectToLocal(returnUrl);
+                    }
+                    AddErrors(result);
                 }
-
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
-                    return RedirectToLocal(returnUrl);
-                }
-                AddErrors(result);
+                ModelState.AddModelError(model.Customercard, "User account already exists on this card number");
+                return View(model);
             }
 
             // If we got this far, something failed, redisplay form

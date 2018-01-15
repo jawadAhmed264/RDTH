@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace RDTH.Areas.Admin.Models.DistributerViewModel
 {
@@ -11,13 +7,13 @@ namespace RDTH.Areas.Admin.Models.DistributerViewModel
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "First Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "Last Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string LastName { get; set; }
 
         [Required]
@@ -32,7 +28,7 @@ namespace RDTH.Areas.Admin.Models.DistributerViewModel
 
         [Required]
         [Display(Name = "City")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string City { get; set; }
 
         [Required]

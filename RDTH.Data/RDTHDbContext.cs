@@ -29,6 +29,7 @@ namespace RDTH.Data
         public DbSet<Recharge> RechargeHistory { get; set; }
         public DbSet<CustomerPackage> CustomerPackages { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<NewSetBoxRequest> NewSetBoxRequest { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

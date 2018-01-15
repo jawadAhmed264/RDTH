@@ -5,10 +5,11 @@ namespace RDTH.Areas.Admin.Models.CustomerCardViewModel
 {
     public class CardAddModel
     {
+        public int Id { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "Your Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string OwnerName { get; set; }
 
         [Required]

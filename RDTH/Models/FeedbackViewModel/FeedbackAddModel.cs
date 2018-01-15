@@ -6,7 +6,7 @@ namespace RDTH.Models.FeedbackViewModel
     {
         [Required]
         [StringLength(30,MinimumLength =3)]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string Name { get; set; }
 
         [Required]

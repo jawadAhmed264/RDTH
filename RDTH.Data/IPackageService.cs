@@ -7,8 +7,10 @@ namespace RDTH.Data
     {
         IEnumerable<Package> GetAll();
         IEnumerable<Package> GetLatest();
-        Package GetById(int id);
+        Package GetById(int? id);
         void AddPackage(Package newPackage);
+        void Update(Package package);
 
+        decimal GetPackageCharges(int Id);
     }
 }

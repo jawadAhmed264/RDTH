@@ -1,0 +1,52 @@
+﻿@model RDTH.Models.RechargeViewModel.RechargeHistoryIndexModel
+
+@{
+    ViewData["Title"] = "Recharge History";
+}
+
+<h2>Recharge History</h2>
+
+<div class="container" style="background-color:lightgray;padding:30px">
+<table class="table table-condensed" id="catalogIndexTable">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Package</th>
+            <th>Payment Type</th>
+            <th>Charges</th>
+            <th>Total</th>
+            <th>Customer Card</th>
+            <th>Recharge Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.RechargeList)
+        {
+            <tr style="color:black">
+                <td>@item.OwnerName</td>
+                <td>@item.PackageName</td>
+                <td>@item.PaymentType</td>
+                <td>@item.Charges</td>
+                <td>@item.Total</td>
+                <td>@item.Customercard</td>
+                <td>@item.RechargeDate</td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+@section Styles {
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#catalogIndexTable').DataTable();
+        });
+    </script>
+}
+
+

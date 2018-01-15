@@ -26,7 +26,7 @@ namespace RDTH.Service
             return _context.SetBoxes;
         }
 
-        public SetBox GetById(int id)
+        public SetBox GetById(int? id)
         {
             return GetAll().FirstOrDefault(sb=>sb.Id==id);
         }

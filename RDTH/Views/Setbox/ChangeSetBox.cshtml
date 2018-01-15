@@ -1,0 +1,19 @@
+﻿@model RDTH.Models.SetBoxViewModel.SetBoxDetailModel
+@{
+    ViewData["Title"] = "ChangeSetBox";
+}
+
+<h2>Change SetBox Device</h2>
+
+<div class="row">
+    <div class="jumbotron">
+        <h2>Do You want to change your corrent device to <span class="text-info">@Model.Name</span> ?</h2>
+        <h3>Our Dealer will contact you soon after Request Approved by Admin</h3>
+        <h4>Thank You</h4>
+        <form asp-action="ChangeSetBox" method="post">
+            <input type="hidden" asp-for="@Model.Id"/>
+            <input type="submit" class="btn btn-default" value="Yes"/> | <a asp-action="Index" class="btn btn-warning">No</a>
+        </form>
+    </div>
+</div>
+

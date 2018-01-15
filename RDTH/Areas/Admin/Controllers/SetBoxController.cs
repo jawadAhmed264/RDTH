@@ -1,22 +1,28 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RDTH.Data;
 using RDTH.Data.Models;
+using RDTH.Areas.Admin.Models.SetBoxViewModel;
+using Microsoft.Net.Http.Headers;
+using System.IO;
 
 namespace RDTH.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class SetBoxController : Controller
     {
         private readonly RDTHDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public SetBoxController(RDTHDbContext context)
+        public SetBoxController(RDTHDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Admin/SetBox
@@ -54,15 +60,37 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Specification,Price,ImageUrl")] SetBox setBox)
+        public async Task<IActionResult> Create([Bind("Name,Specification,Price,Image")] SetboxDetailModel model)
         {
             if (ModelState.IsValid)
             {
+                var file = model.Image;
+
+                var parsedContentDisposition =
+                    ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                var filename = Path.Combine(_hostingEnvironment.WebRootPath,
+                    "images","setbox", parsedContentDisposition.FileName.ToString().Trim('"'));
+
+                using (var stream = System.IO.File.OpenWrite(filename))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                SetBox setBox = new SetBox()
+                {
+                    Name = model.Name,
+                    ImageUrl =$"/images/setbox/{parsedContentDisposition.FileName.ToString().Trim('"')}",
+                    Price = model.Price,
+                    Specification = model.Specification
+
+                };
+
                 _context.Add(setBox);
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(setBox);
+            return View(model);
         }
 
         // GET: Admin/SetBox/Edit/5
@@ -74,6 +102,7 @@ namespace RDTH.Areas.Admin.Controllers
             }
 
             var setBox = await _context.SetBoxes.SingleOrDefaultAsync(m => m.Id == id);
+
             if (setBox == null)
             {
                 return NotFound();
@@ -86,9 +115,9 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Specification,Price,ImageUrl")] SetBox setBox)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Specification,Price,ImageUrl")] SetBox model)
         {
-            if (id != setBox.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -97,12 +126,12 @@ namespace RDTH.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(setBox);
+                    _context.Update(model);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SetBoxExists(setBox.Id))
+                    if (!SetBoxExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -113,7 +142,7 @@ namespace RDTH.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(setBox);
+            return View(model);
         }
 
         // GET: Admin/SetBox/Delete/5

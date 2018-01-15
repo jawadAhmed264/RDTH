@@ -13,6 +13,13 @@ namespace RDTH.Service
         {
             _con = con;
         }
+
+        public void Add(Customer newCustomer)
+        {
+            _con.Add(newCustomer);
+            _con.SaveChanges();
+        }
+
         public IEnumerable<Customer> GetAll()
         {
             return _con.Customers.Include(c=>c.ApplicationUser);
@@ -26,6 +33,11 @@ namespace RDTH.Service
         public Customer GetByUser(string UserId)
         {
             return GetAll().FirstOrDefault(c => c.ApplicationUser.Id == UserId);
+        }
+
+        public bool IsCustomer(int CardId)
+        {
+            return GetAll().Where(c => c.CustomerCard.Id==CardId).Any();
         }
     }
 }

@@ -12,7 +12,7 @@ using RDTH.Data.Models;
 namespace RDTH.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class CustomerCardController : Controller
     {
         private readonly RDTHDbContext _context;
@@ -25,7 +25,10 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/CustomerCard
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CustomerCards.ToListAsync());
+            return View(await _context.CustomerCards.
+                Include(c => c.Package).
+                Include(c => c.SetBox)
+                .ToListAsync());
         }
 
         // GET: Admin/CustomerCard/Details/5
@@ -55,7 +58,7 @@ namespace RDTH.Areas.Admin.Controllers
                 SingleOrDefault(s => s.Id == id);
 
             _context.Update(Subscriber);
-            Subscriber.Status = _context.Status.FirstOrDefault(st=>st.Name== "Viewed");
+            Subscriber.Status = _context.Status.FirstOrDefault(st => st.Name == "Viewed");
             _context.SaveChanges();
 
             CardAddModel card = new CardAddModel()
@@ -90,8 +93,17 @@ namespace RDTH.Areas.Admin.Controllers
                     Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
                     SetBox = _context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId)
                 };
+                CustomerPackage cp = new CustomerPackage
+                {
+                    CustomerCard = customerCard,
+                    NumberOfMonths = 1,
+                    ExpirationDate = DateTime.Now.AddMonths(1),
+                    Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
+                    Status = _context.Status.SingleOrDefault(s => s.Name == "Charged")
+                };
 
                 _context.Add(customerCard);
+                _context.Add(cp);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -105,13 +117,28 @@ namespace RDTH.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            SetDropDown();
+            var customerCard = await _context.CustomerCards.
+                Include(c => c.Package).Include(c => c.SetBox).
+                SingleOrDefaultAsync(m => m.Id == id);
 
-            var customerCard = await _context.CustomerCards.SingleOrDefaultAsync(m => m.Id == id);
+            var model = new CardAddModel
+            {
+                Address = customerCard.Address,
+                ContactNumber = customerCard.ContactNumber,
+                Id = customerCard.Id,
+                OwnerName = customerCard.OwnerName,
+                CardNumber = customerCard.CardNumber,
+                PackageId = _context.Packages.FirstOrDefault(p => p.Id == customerCard.Package.Id).Id,
+                SetBoxId = _context.SetBoxes.FirstOrDefault(p => p.Id == customerCard.SetBox.Id).Id,
+            };
+
             if (customerCard == null)
             {
                 return NotFound();
             }
-            return View(customerCard);
+
+            return View(model);
         }
 
         // POST: Admin/CustomerCard/Edit/5
@@ -119,9 +146,9 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,OwnerName,ContactNumber,Address,CardNumber,SubscribeDate")] CustomerCard customerCard)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,OwnerName,ContactNumber,Address,CardNumber,SubscribeDate,PackageId,SetBoxId")] CardAddModel model)
         {
-            if (id != customerCard.Id)
+            if (id != model.Id)
             {
                 return NotFound();
             }
@@ -130,12 +157,25 @@ namespace RDTH.Areas.Admin.Controllers
             {
                 try
                 {
+                    CustomerCard customerCard = await _context.CustomerCards.
+                      Include(c => c.Package).Include(c => c.SetBox).
+                      SingleOrDefaultAsync(m => m.Id == id);
+
                     _context.Update(customerCard);
+
+                    customerCard.OwnerName = model.OwnerName;
+                    customerCard.SubscribeDate = model.SubscribeDate;
+                    customerCard.CardNumber = model.CardNumber;
+                    customerCard.ContactNumber = model.ContactNumber;
+                    customerCard.Address = model.Address;
+                    customerCard.Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId);
+                    customerCard.SetBox = _context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId);
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CustomerCardExists(customerCard.Id))
+                    if (!CustomerCardExists(model.Id))
                     {
                         return NotFound();
                     }
@@ -146,7 +186,7 @@ namespace RDTH.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(customerCard);
+            return View(model);
         }
 
         // GET: Admin/CustomerCard/Delete/5
@@ -181,6 +221,12 @@ namespace RDTH.Areas.Admin.Controllers
         private bool CustomerCardExists(int id)
         {
             return _context.CustomerCards.Any(e => e.Id == id);
+        }
+
+        private void SetDropDown()
+        {
+            ViewBag.Packages = _context.Packages.ToList();
+            ViewBag.SetBoxes = _context.SetBoxes.ToList();
         }
     }
 }

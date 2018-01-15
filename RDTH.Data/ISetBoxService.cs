@@ -7,7 +7,7 @@ namespace RDTH.Data
     {
         IEnumerable<SetBox> GetAll();
         IEnumerable<SetBox> GetLatest();
-        SetBox GetById(int id);
+        SetBox GetById(int? id);
         void AddSetBox(SetBox newDevice);
     }
 }

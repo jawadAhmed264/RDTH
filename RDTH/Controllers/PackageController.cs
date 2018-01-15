@@ -20,12 +20,14 @@ namespace RDTH.Controllers
         private readonly ICardService _cardService;
         private readonly ICustomerPackage _cpService;
         private readonly ICustomer _cusService;
+        private readonly IStatusService _statusService;
 
         public PackageController(IPackageService packageService,
             ICustomerPackage cpService,
             ISetBoxService sbService,
             ICardService CardService,
             ICustomer cusService,
+            IStatusService statusService,
             UserManager<ApplicationUser> UserManager)
         {
             _packageService = packageService;
@@ -34,6 +36,7 @@ namespace RDTH.Controllers
             _sbService = sbService;
             _cpService = cpService;
             _cusService = cusService;
+            _statusService = statusService;
         }
 
         public IActionResult Index()
@@ -83,8 +86,9 @@ namespace RDTH.Controllers
             SetBox SetBox = _sbService.GetById(card.SetBox.Id);
             Customer cus = _cusService.GetByUser(_userManager.GetUserId(HttpContext.User));
             DateTime expire = _cpService.GetExpirationTime(cus.Id);
+            Status status = _cpService.GetByCardId(card.Id).Status;
 
-            string state = GetState(expire);
+            string st = GetState(status);
 
             MyPackageViewModel model = new MyPackageViewModel
             {
@@ -103,13 +107,70 @@ namespace RDTH.Controllers
                     ImageUrl = SetBox.ImageUrl
                 },
                 GetExpiration = expire,
-                State = state
+                State = st
             };
             return View(model);
         }
-        private string GetState(DateTime expire)
+
+        [Authorize(Roles = "User")]
+        [HttpGet]
+        public IActionResult ChangePackage(int? PackageId)
         {
-            if (expire < DateTime.Now)
+            if (PackageId == null)
+            {
+                return NotFound();
+            }
+            var package = _packageService.GetById(PackageId);
+
+            if (package == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PackageDetailViewModel
+            {
+                Id = package.Id,
+                PackageName = package.PackageName
+            };
+            if (model == null)
+            {
+                return NotFound();
+            }
+            return View(model);
+        }
+        [Authorize(Roles = "User")]
+        [HttpPost]
+        public IActionResult ChangePackage(PackageDetailViewModel model)
+        {
+           if (model == null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var package = _packageService.GetById(model.Id);
+
+                var card = _cardService.GetCurrentUserCard(_userManager.GetUserId(HttpContext.User));
+                card.Package = package;
+                _cardService.Update(card);
+
+                var cp = _cpService.GetByCardId(card.Id);
+                cp.Package = package;
+                cp.Status = _statusService.GetByName("Recharged");
+                _cpService.Update(cp);
+
+                ViewBag.success = "success";
+                ViewBag.msg = "Your Package Has been Changed. You need to Recharged Your Package.";
+                return RedirectToAction("MyPackage");
+            }
+
+            return View(model);
+        }
+
+        private string GetState(Status st)
+        {
+            if (st.Name== "Recharged")
             {
                 return "Package Expire";
             }

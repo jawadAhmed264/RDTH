@@ -1,0 +1,53 @@
+﻿@model IEnumerable<RDTH.Data.Models.NewSetBoxRequest>
+@{
+    ViewData["Title"] = "New SetBox Request";
+}
+
+<h2>New SetBox Request</h2>
+
+<hr />
+
+<table class="table table-condensed" id="catalogIndexTable">
+    <thead>
+        <tr>
+            <th>Card Number</th>
+            <th>Customer</th>
+            <th>New SetBox</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr style="color:black">
+                <td>@item.Card.CardNumber</td>
+                <td>@item.Card.OwnerName</td>
+                <td>@item.Setbox.Name</td>
+                <td>@item.Status.Name</td>
+                <td>
+                    <a asp-action="Approved" asp-route-Id="@item.Id">Approved</a>
+                    <a asp-action="Delete" asp-route-Id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Styles {
+    <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+}
+@section Scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#catalogIndexTable').DataTable();
+        });
+    </script>
+}
+
+
+
+

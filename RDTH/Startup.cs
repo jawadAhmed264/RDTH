@@ -49,7 +49,8 @@ namespace RDTH
             services.AddScoped<ICustomerPackage, CustomerPackageService>();
             services.AddScoped<ICustomer, CustomerService>();
             services.AddScoped<IMod, ModService>();
-
+            services.AddScoped<IRechargeService, RechargeService>();
+            services.AddScoped<INewSetBoxRequest, NewSetBoxRequestService>();
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using RDTH.Models
+@model RDTH.Models.PackageViewModel.PackageDetailViewModel
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
@@ -8,7 +9,7 @@
 {
     @if (User.IsInRole("User"))
     {
-        <a href="#" class="btn btn-default">Change Package</a>
+        <a asp-controller="Package" asp-action="ChangePackage" asp-route-PackageId="@Model.Id" class="btn btn-danger">Change Package</a>
     }
     @if (User.IsInRole("Distributer"))
     {

@@ -17,7 +17,7 @@
                 Sports Channel :@Model.SportsChannel<br />Entertainment Channel :@Model.EntertainmentChannel<br />
             </p>
             <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Charges</h3><br />
-            @await Html.PartialAsync("_Selection")
+            @await Html.PartialAsync("_Selection",Model)
         </div>
     </div>
 </div>

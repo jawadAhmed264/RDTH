@@ -7,7 +7,7 @@ namespace RDTH.Models.SubscribeViewModel
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "Your Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string OwnerName { get; set; }
 
         [Required]

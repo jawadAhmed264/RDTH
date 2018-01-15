@@ -20,7 +20,7 @@
                 <p class="text-warning">Status :@Model.State</p>
                 <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.MyPackage.Charges / Month</h3><br />
                 <a class="btn btn-warning" asp-action="index">Browse for More</a> |
-                <a class="btn btn-danger" asp-action="index">Recharge</a>
+                <a class="btn btn-danger" asp-controller="Recharge" asp-action="index">Recharge</a>
             </div>
         </div>
     </div>

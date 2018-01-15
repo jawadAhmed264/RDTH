@@ -16,7 +16,7 @@
                 @Html.Raw(Model.Specification.ToString().Replace(",", "<br />"))
             </p>
             <h3 style="border:1px solid orange" class="text-info text-center">Rs @Model.Price</h3><br />
-            @await Html.PartialAsync("_Selection")
+            @await Html.PartialAsync("_Selection", Model)
         </div>
     </div>
 

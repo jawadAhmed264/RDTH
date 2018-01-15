@@ -8,6 +8,8 @@ namespace RDTH.Data
         IEnumerable<Customer> GetAll();
         Customer GetById(int id);
         Customer GetByUser(string UserId);
+        bool IsCustomer(int CardId);
 
+        void Add(Customer newCustomer);
     }
 }

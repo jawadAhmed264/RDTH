@@ -1,22 +1,28 @@
-﻿using System.Linq;
+﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
+using RDTH.Areas.Admin.Models.PackageViewModel;
 using RDTH.Data;
 using RDTH.Data.Models;
 
 namespace RDTH.Areas.Admin.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [Area("Admin")]
     public class PackageController : Controller
     {
         private readonly RDTHDbContext _context;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public PackageController(RDTHDbContext context)
+        public PackageController(RDTHDbContext context, IHostingEnvironment hostingEnvironment)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         // GET: Admin/Package
@@ -54,15 +60,39 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PackageName,NoOfChannels,NewsChannel,EntertainmentChannel,SportsChannel,DocumentariesChannel,Charges,ImageUrl")] Package package)
+        public async Task<IActionResult> Create([Bind("PackageName,NoOfChannels,NewsChannel,EntertainmentChannel,SportsChannel,DocumentariesChannel,Charges,Image")] PackageDetailModel model)
         {
             if (ModelState.IsValid)
             {
+                var file = model.Image;
+
+                var parsedContentDisposition =
+                    ContentDispositionHeaderValue.Parse(file.ContentDisposition);
+                var filename = Path.Combine(_hostingEnvironment.WebRootPath,
+                    "images", "package", parsedContentDisposition.FileName.ToString().Trim('"'));
+
+                using (var stream = System.IO.File.OpenWrite(filename))
+                {
+                    await file.CopyToAsync(stream);
+                }
+
+                Package package = new Package
+                {
+                    Charges = model.Charges,
+                    DocumentariesChannel = model.DocumentariesChannel,
+                    EntertainmentChannel = model.EntertainmentChannel,
+                    ImageUrl = $"/images/package/{parsedContentDisposition.FileName.ToString().Trim('"')}",
+                    NewsChannel = model.NewsChannel,
+                    NoOfChannels = model.NoOfChannels,
+                    PackageName = model.PackageName,
+                    SportsChannel = model.SportsChannel
+                };
+
                 _context.Add(package);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(package);
+            return View(model);
         }
 
         // GET: Admin/Package/Edit/5

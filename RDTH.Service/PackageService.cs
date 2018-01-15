@@ -23,7 +23,7 @@ namespace RDTH.Service
             return _context.Packages;
         }
 
-        public Package GetById(int id)
+        public Package GetById(int? id)
         {
             return GetAll().FirstOrDefault(p => p.Id == id);
         }
@@ -31,6 +31,17 @@ namespace RDTH.Service
         public IEnumerable<Package> GetLatest()
         {
             return GetAll().TakeLast(3);
+        }
+
+        public decimal GetPackageCharges(int Id)
+        {
+           return _context.Packages.SingleOrDefault(p => p.Id == Id).Charges;
+        }
+
+        public void Update(Package package)
+        {
+            _context.Update(package);
+            _context.SaveChanges();
         }
     }
 }

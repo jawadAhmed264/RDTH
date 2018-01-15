@@ -1,0 +1,109 @@
+﻿@model RDTH.Models.RechargeViewModel.RechargeAddModel
+
+@{
+    ViewData["Title"] = "Recharge";
+}
+
+@if (ViewBag.success == "success")
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <i class="fa fa-info-circle"></i>  <strong>@ViewBag.msg</strong>
+            </div>
+        </div>
+    </div><br />
+}
+<h2 class="text-info">Package Recharge Panel</h2>
+
+<h4 class="text-warning">Please Fill the form correctly with all fields</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <img src="~/images/instant-recharge-icon.jpg" class="img-thumbnail" />
+    </div>
+    <div class="col-md-5 col-md-push-1">
+        <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Customercard" class="control-label"></label>
+                <input asp-for="Customercard" class="form-control"/>
+                <span asp-validation-for="Customercard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentType" class="control-label"></label>
+                @Html.DropDownListFor(m => m.PaymentType, new List<SelectListItem>() {
+                                       new SelectListItem{Text="Master/Visa",Value="Master/Visa",Selected=true},
+                                       new SelectListItem{Text="Credit Card",Value="Credit Card"},
+                                      }, new { @class = "form-control" })
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreditCardNumber" class="control-label"></label>
+                <input asp-for="CreditCardNumber" class="form-control" />
+                <span asp-validation-for="CreditCardNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CardExpiry" class="control-label"></label>
+                <input asp-for="CardExpiry" class="form-control" />
+                <span asp-validation-for="CardExpiry" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CVV" class="control-label"></label>
+                <input asp-for="CVV" class="form-control" />
+                <span asp-validation-for="CVV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Months" class="control-label"></label>
+                <input asp-for="Months" value="0" max="3" min="1" class="form-control" style="width:80px" />
+                <span asp-validation-for="Months" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charges" class="control-label"></label>
+                <input asp-for="Charges" class="form-control" disabled style="width:100px;color:red;font-weight:bolder;font-size:20px"/>
+                <span asp-validation-for="Charges" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" disabled style="width:100px;color:red;font-weight:bolder;font-size:20px"/>
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#Customercard').blur(function () {
+                var card = $('#Customercard').val();
+                $.ajax(
+                    {
+                        url: "Recharge/GetCost",
+                        type: "get",
+                        data: { Customercard: card },
+                        success: function (data) {
+                            $('#Charges').val(data);
+                        }
+                    });
+            });
+            $('#Months').change(function () {
+                var months = this.value;
+                var total = months * $('#Charges').val();
+                $('#Total').val(total);
+
+            });
+        });
+    </script>
+}

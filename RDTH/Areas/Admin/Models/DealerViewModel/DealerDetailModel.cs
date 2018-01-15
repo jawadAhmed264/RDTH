@@ -10,13 +10,13 @@ namespace RDTH.Areas.Admin.Models.DealerViewModel
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "First Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string FirstName { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 3)]
         [Display(Name = "Last Name")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string LastName { get; set; }
 
         [Required]
@@ -31,7 +31,7 @@ namespace RDTH.Areas.Admin.Models.DealerViewModel
 
         [Required]
         [Display(Name = "City")]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "input only Alphabets")]
+        [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "input only Alphabets")]
         public string City { get; set; }
 
         [Required]

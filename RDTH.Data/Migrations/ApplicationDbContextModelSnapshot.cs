@@ -223,6 +223,8 @@ namespace RDTH.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("CustomerCardId");
+
                     b.Property<int?>("CustomerId");
 
                     b.Property<DateTime>("ExpirationDate");
@@ -234,6 +236,8 @@ namespace RDTH.Data.Migrations
                     b.Property<int?>("StatusId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CustomerCardId");
 
                     b.HasIndex("CustomerId");
 
@@ -354,6 +358,28 @@ namespace RDTH.Data.Migrations
                     b.ToTable("MoviesOnDemand");
                 });
 
+            modelBuilder.Entity("RDTH.Data.Models.NewSetBoxRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CardId");
+
+                    b.Property<int?>("SetboxId");
+
+                    b.Property<int?>("StatusId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("SetboxId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("NewSetBoxRequest");
+                });
+
             modelBuilder.Entity("RDTH.Data.Models.NewSubscribe", b =>
                 {
                     b.Property<int>("Id")
@@ -391,8 +417,6 @@ namespace RDTH.Data.Migrations
 
                     b.Property<int?>("CartId");
 
-                    b.Property<int?>("CustomerId");
-
                     b.Property<DateTime>("DatePlaced");
 
                     b.Property<int?>("DealerId");
@@ -404,8 +428,6 @@ namespace RDTH.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("DealerId");
 
@@ -455,8 +477,6 @@ namespace RDTH.Data.Migrations
 
                     b.Property<string>("CreditCardNumber");
 
-                    b.Property<int?>("CustomerId");
-
                     b.Property<int?>("DealerId");
 
                     b.Property<int?>("DistributerId");
@@ -468,8 +488,6 @@ namespace RDTH.Data.Migrations
                     b.Property<string>("PaymentType");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.HasIndex("DealerId");
 
@@ -673,6 +691,10 @@ namespace RDTH.Data.Migrations
 
             modelBuilder.Entity("RDTH.Data.Models.CustomerPackage", b =>
                 {
+                    b.HasOne("RDTH.Data.Models.CustomerCard", "CustomerCard")
+                        .WithMany()
+                        .HasForeignKey("CustomerCardId");
+
                     b.HasOne("RDTH.Data.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerId");
@@ -718,6 +740,21 @@ namespace RDTH.Data.Migrations
                         .HasForeignKey("StatusId");
                 });
 
+            modelBuilder.Entity("RDTH.Data.Models.NewSetBoxRequest", b =>
+                {
+                    b.HasOne("RDTH.Data.Models.CustomerCard", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId");
+
+                    b.HasOne("RDTH.Data.Models.SetBox", "Setbox")
+                        .WithMany()
+                        .HasForeignKey("SetboxId");
+
+                    b.HasOne("RDTH.Data.Models.Status", "Status")
+                        .WithMany()
+                        .HasForeignKey("StatusId");
+                });
+
             modelBuilder.Entity("RDTH.Data.Models.NewSubscribe", b =>
                 {
                     b.HasOne("RDTH.Data.Models.Package", "Package")
@@ -739,10 +776,6 @@ namespace RDTH.Data.Migrations
                         .WithMany()
                         .HasForeignKey("CartId");
 
-                    b.HasOne("RDTH.Data.Models.Customer")
-                        .WithMany("Orders")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("RDTH.Data.Models.Dealer")
                         .WithMany("Orders")
                         .HasForeignKey("DealerId");
@@ -758,10 +791,6 @@ namespace RDTH.Data.Migrations
 
             modelBuilder.Entity("RDTH.Data.Models.Payment", b =>
                 {
-                    b.HasOne("RDTH.Data.Models.Customer")
-                        .WithMany("Payments")
-                        .HasForeignKey("CustomerId");
-
                     b.HasOne("RDTH.Data.Models.Dealer")
                         .WithMany("Payments")
                         .HasForeignKey("DealerId");
