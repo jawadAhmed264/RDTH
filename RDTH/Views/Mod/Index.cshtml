@@ -25,6 +25,11 @@
 <hr />
 
 <div class="row">
+    <div class="col-md-2 col-md-push-10">
+        <a asp-controller="Mod" asp-action="RequestHistory">View All Requests</a>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-4">
         <form asp-action="Index">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -44,6 +49,7 @@
         </form>
     </div>
 </div>
+
 
 
 @section Scripts {

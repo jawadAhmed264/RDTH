@@ -1,13 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RDTH.Areas.Admin.CustomClasses;
 using RDTH.Areas.Admin.Models.CustomerCardViewModel;
 using RDTH.Data;
 using RDTH.Data.Models;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace RDTH.Areas.Admin.Controllers
 {
@@ -93,17 +93,26 @@ namespace RDTH.Areas.Admin.Controllers
                     Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
                     SetBox = _context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId)
                 };
+
                 CustomerPackage cp = new CustomerPackage
                 {
                     CustomerCard = customerCard,
-                    NumberOfMonths = 1,
-                    ExpirationDate = DateTime.Now.AddMonths(1),
+                    NumberOfMonths = 0,
+                    ExpirationDate = DateTime.Now,
                     Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
-                    Status = _context.Status.SingleOrDefault(s => s.Name == "Charged")
+                    Status = _context.Status.SingleOrDefault(s => s.Name == "Recharged")
+                };
+
+                NewSetBoxRequest request = new NewSetBoxRequest()
+                {
+                    Card=customerCard,
+                    Setbox=_context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId),
+                    Status=_context.Status.SingleOrDefault(s => s.Name == "AdminApproved")
                 };
 
                 _context.Add(customerCard);
                 _context.Add(cp);
+                _context.Add(request);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

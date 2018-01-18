@@ -1,0 +1,85 @@
+﻿@model RDTH.Data.Models.Order
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+<div class="row">
+    <div class="col-md-12">
+        <h4>Order Details</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DatePlaced)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DatePlaced)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PersonName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PersonName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Contact)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Contact)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ShippingAddress)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ShippingAddress)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Status.Name)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Status.Name)
+            </dd>
+            <dt>
+                Total Price
+            </dt>
+            <dd class="text-info">
+                @Html.DisplayNameFor(model => model.Cart.TotalPrice)
+            </dd>
+        </dl>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var items in Model.Cart.ItemList)
+                {
+                <tr>
+                    <td>@items.Product.Name</td>
+                    <td>@items.Product.Price</td>
+                    <td>@items.Qty</td>
+                    <td>@items.Price</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="text-warning">Total Items : @Model.Cart.TotalItems</h4>
+        <h4 class="text-danger">Total Price : Rs.@Model.Cart.TotalPrice</h4>
+    </div>
+</div>
+<hr />
+<div>
+    <a asp-action="Approved" asp-route-id="@Model.Id">Approved</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

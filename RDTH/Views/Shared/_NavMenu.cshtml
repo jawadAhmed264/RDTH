@@ -22,24 +22,28 @@
     {
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Setbox" asp-action="Index">SetBox</a></li>
-            <li><a asp-area="" asp-controller="Order" asp-action="">My Orders</a></li>
-            <li><a asp-area="" asp-controller="Payment" asp-action="MyPayment">My Payments</a></li>
+            <li><a asp-area="" asp-controller="Order" asp-action="DistributerOrder">My Orders</a></li>
+            <li><a asp-area="" asp-controller="Payment" asp-action="DistributerPayment">My Payments</a></li>
             <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
-            <li><a asp-area="" asp-controller="Cart" asp-action=""><i class="glyphicon glyphicon-shopping-cart"> </i><span class="badge">0</span></a></li>
+            <li>
+                @await Component.InvokeAsync("CartTotalItems")
+            </li>
         </ul>
     }
     @if (User.IsInRole("Dealer"))
     {
         <ul class="nav navbar-nav">
             <li><a asp-area="" asp-controller="Setbox" asp-action="Index">SetBox</a></li>
-            <li><a asp-area="" asp-controller="Order" asp-action="About">My Orders</a></li>
-            <li><a asp-area="" asp-controller="Payment" asp-action="MyPayment">My Payments</a></li>
+            <li><a asp-area="" asp-controller="Order" asp-action="DealerOrder">My Orders</a></li>
+            <li><a asp-area="" asp-controller="Payment" asp-action="DealerPayment">My Payments</a></li>
             <li><a asp-area="" asp-controller="Faq" asp-action="Index">FAQ</a></li>
-            <li><a asp-area="" asp-controller="CustomerCare" asp-action="Distributers">Locate Distributers</a></li>
-            <li><a asp-area="" asp-controller="SetBox" asp-action="CustomerSetBoxRequest">Customer Requests</a></li>
-            <li><a asp-area="" asp-controller="Cart" asp-action=""><i class="glyphicon glyphicon-shopping-cart"> </i><span class="badge">0</span></a></li>
-        </ul>
-    }
+            <li><a asp-area="" asp-controller="CustomerCare" asp-action="Distributers">Distributers</a></li>
+            <li><a asp-area="" asp-controller="SetBox" asp-action="CustomerSetBoxRequest">SetBox Requests</a></li>
+            <li>
+                @await Component.InvokeAsync("CartTotalItems")
+            </li>
+    </ul>
+}
 }
 else
 {

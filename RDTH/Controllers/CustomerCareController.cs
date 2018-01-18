@@ -17,7 +17,6 @@ namespace RDTH.Controllers
         }
 
         [Route("CustomerCare")]
-        [Authorize(Roles = "User")]
         public IActionResult GetDealer()
         {
             var dealersList = _dealerService.GetAll().Select(d => new CustomerCareDetailModel()

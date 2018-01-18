@@ -1,0 +1,43 @@
+﻿@model RDTH.Models.ModViewModel.ModIndexModel
+@{
+    ViewData["Title"] = "Past Movies Request";
+}
+
+<h2 class="text-info">Past Request History</h2>
+<h3 class="text-warning">You can also viewed your Movies On Demand request status</h3>
+
+<hr />
+<div class="container" style="background-color:lightgray;padding:30px">
+    <table class="table table-condensed" id="catalogIndexTable">
+        <thead>
+            <tr>
+                <th>Movie</th>
+                <th>Time</th>
+                <th>Approval</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movies in Model.ModList)
+            {
+                <tr style="color:black">
+                    <td>@movies.Movie</td>
+                    <td>@movies.MovieTime</td>
+                    <td>@movies.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    @section Styles {
+        <link href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+        <link href="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+    }
+    @section Scripts {
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/a5734b29083/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#catalogIndexTable').DataTable();
+            });
+        </script>
+    }

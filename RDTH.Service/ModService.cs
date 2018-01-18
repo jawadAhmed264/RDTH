@@ -25,7 +25,14 @@ namespace RDTH.Service
 
         public IEnumerable<MovieOnDemand> GetAll()
         {
-            return _con.MoviesOnDemand.Include(m=>m.Status);
+            return _con.MoviesOnDemand.
+                Include(m=>m.Status).
+                Include(m=>m.Customer);
+        }
+
+        public IEnumerable<MovieOnDemand> GetByCustomer(int CustomerID)
+        {
+            return GetAll().Where(m => m.Customer.Id == CustomerID);
         }
 
         public MovieOnDemand GetById(int id)

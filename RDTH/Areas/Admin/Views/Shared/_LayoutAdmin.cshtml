@@ -42,7 +42,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <li class="active">
-                        <a asp-area="Admin" asp-controller="Admin"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="Index"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <!--Html.ActionLink("Link Text", "ActionName", "ControllerName", new { Area = "AreaName" }, new{})-->
@@ -87,7 +87,9 @@
                     <li>
                         <a asp-area="Admin" asp-controller="Feedback" asp-action="Index"><i class="fa fa-fw fa-reply"></i> FeedBacks</a>
                     </li>
-
+                    <li>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="AddAdmin"><i class="fa fa-user"></i> Add New Admin</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

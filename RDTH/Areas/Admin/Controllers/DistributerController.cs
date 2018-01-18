@@ -200,8 +200,14 @@ namespace RDTH.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var distributer = await _context.Distributers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Distributers.Remove(distributer);
-            await _context.SaveChangesAsync();
+            var user = await _userManager.FindByIdAsync(distributer.ApplicationUser.Id);
+            if (user != null)
+            {
+                _context.Distributers.Remove(distributer);
+                await _userManager.RemoveFromRoleAsync(user, "Distributer");
+                await _userManager.DeleteAsync(user);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 

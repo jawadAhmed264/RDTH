@@ -13,22 +13,19 @@
     }
     @if (User.IsInRole("Distributer"))
     {
-        <form asp-controller="Cart" asp-action="AddToCart" method="post">
-            <input type="hidden" name="Id" id="Id" />
-            <label for="qty">Quantity</label>
-            <input type="number" name="qty" id="qty" min="1" max="20" value="1" class="form-control" style="width:80px;" />
-            <input type="submit" class="btn btn-primary" value="Add To Cart"/>
+        <form asp-controller="Cart" asp-action="AddToCart">
+            <input type="hidden" asp-for="Id"/>
+            <input type="number" id="qty" name="qty" value="1" min="1" max="20" class="form-control" style="width:80px;font-weight:bolder" /><br />
+            <input type="submit" value="Add to Cart" class="btn btn-danger"/>
         </form>
     }
     @if (User.IsInRole("Dealer"))
     {
-        <form asp-controller="Cart" asp-action="AddToCart" method="post">
-            <input type="hidden" name="Id" id="Id" />
-            <label for="qty" class="text-primary">Quantity</label>
-            <input type="number" name="qty" id="qty" min="1" max="20" value="1" class="form-control" style="width:80px;" /><br />
-            <input type="submit" class="btn btn-warning" value="Add To Cart" />
+        <form asp-controller="Cart" asp-action="AddToCart">
+            <input type="hidden" asp-for="Id" />
+            <input type="number" id="qty" name="qty" value="1" min="1" max="20" class="form-control" style="width:80px;font-weight:bolder" /><br />
+            <input type="submit" value="Add to Cart" class="btn btn-danger" />
         </form>
-
     }
 
 }

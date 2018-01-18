@@ -5,6 +5,7 @@ using RDTH.Data;
 using RDTH.Data.Models;
 using RDTH.Models;
 using RDTH.Models.ModViewModel;
+using System.Linq;
 
 namespace RDTH.Controllers
 {
@@ -52,6 +53,26 @@ namespace RDTH.Controllers
                 ModelState.Clear();
                 return View();
             }
+            return View(model);
+        }
+
+        public IActionResult RequestHistory()
+        {
+            var user = _userManager.GetUserId(HttpContext.User);
+            var customer = _cusService.GetByUser(user);
+            var Mod = _modservice.GetByCustomer(customer.Id).
+                Select(m => new ModDetailModel
+                {
+                   Movie=m.Movie,
+                   MovieTime=m.MovieTime,
+                   Status=m.Status.Name
+                });
+
+            var model = new ModIndexModel
+            {
+                ModList = Mod
+            };
+
             return View(model);
         }
     }

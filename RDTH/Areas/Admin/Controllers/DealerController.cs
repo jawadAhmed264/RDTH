@@ -51,12 +51,12 @@ namespace RDTH.Areas.Admin.Controllers
             }
 
             var dealer = await _context.Dealers
-                .Include(d=>d.ApplicationUser)
-                .SingleOrDefaultAsync(d=>d.Id == id);
+                .Include(d => d.ApplicationUser)
+                .SingleOrDefaultAsync(d => d.Id == id);
 
             DealerDetailModel model = new DealerDetailModel
             {
-                Id=dealer.Id,
+                Id = dealer.Id,
                 Address = dealer.Address,
                 City = dealer.City,
                 FirstName = dealer.FirstName,
@@ -111,7 +111,7 @@ namespace RDTH.Areas.Admin.Controllers
                             LastName = model.LastName,
                             JoinDate = DateTime.Now,
                             Telephone = model.Telephone,
-                            ApplicationUser= newUser
+                            ApplicationUser = newUser
                         };
                         _context.Add(dealer);
                         await _context.SaveChangesAsync();
@@ -200,9 +200,17 @@ namespace RDTH.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+
             var dealer = await _context.Dealers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Dealers.Remove(dealer);
-            await _context.SaveChangesAsync();
+            var user = await _userManager.FindByIdAsync(dealer.ApplicationUser.Id);
+            if (user != null)
+            {
+                _context.Dealers.Remove(dealer);
+                await _userManager.RemoveFromRoleAsync(user, "Dealer");
+                await _userManager.DeleteAsync(user);
+                await _context.SaveChangesAsync();
+            }
+            
             return RedirectToAction(nameof(Index));
         }
 

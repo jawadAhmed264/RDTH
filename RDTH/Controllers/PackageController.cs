@@ -86,9 +86,9 @@ namespace RDTH.Controllers
             SetBox SetBox = _sbService.GetById(card.SetBox.Id);
             Customer cus = _cusService.GetByUser(_userManager.GetUserId(HttpContext.User));
             DateTime expire = _cpService.GetExpirationTime(cus.Id);
-            Status status = _cpService.GetByCardId(card.Id).Status;
+            CustomerPackage cp = _cpService.GetByCardId(card.Id);
 
-            string st = GetState(status);
+            string status = UpdatePakageStatus(cp, expire);
 
             MyPackageViewModel model = new MyPackageViewModel
             {
@@ -107,7 +107,7 @@ namespace RDTH.Controllers
                     ImageUrl = SetBox.ImageUrl
                 },
                 GetExpiration = expire,
-                State = st
+                State = status
             };
             return View(model);
         }
@@ -142,16 +142,20 @@ namespace RDTH.Controllers
         [HttpPost]
         public IActionResult ChangePackage(PackageDetailViewModel model)
         {
-           if (model == null)
-            {
-                return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
                 var package = _packageService.GetById(model.Id);
 
+                if (package == null)
+                {
+                    return NotFound();
+                }
                 var card = _cardService.GetCurrentUserCard(_userManager.GetUserId(HttpContext.User));
+                if (card == null)
+                {
+                    return NotFound();
+                }
                 card.Package = package;
                 _cardService.Update(card);
 
@@ -168,17 +172,20 @@ namespace RDTH.Controllers
             return View(model);
         }
 
-        private string GetState(Status st)
+        private string UpdatePakageStatus(CustomerPackage cp, DateTime expire)
         {
-            if (st.Name== "Recharged")
+            if (expire < DateTime.Now)
             {
-                return "Package Expire";
+                cp.Status = _statusService.GetByName("Recharged");
+                _cpService.Update(cp);
+                return cp.Status.Name;
             }
             else
             {
-                return "Charged";
+                return cp.Status.Name;
             }
         }
+
 
     }
 }

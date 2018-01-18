@@ -9,9 +9,9 @@ namespace RDTH.Data.Models
         public DateTime ExpirationDate { get; set; }
         public Status Status { get; set; }
         //navigational properties
-        public Customer Customer { get; set; }
-        public CustomerCard CustomerCard { get; set; }
-        public Package Package { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual CustomerCard CustomerCard { get; set; }
+        public virtual Package Package { get; set; }
 
     }
 }

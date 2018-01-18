@@ -55,7 +55,7 @@ namespace RDTH.Areas.Admin.Controllers
             if (movieOnDemand != null)
             {
                 _context.Update(movieOnDemand);
-                movieOnDemand.Status = _context.Status.SingleOrDefault(s => s.Name == "Viewed");
+                movieOnDemand.Status = _context.Status.SingleOrDefault(s => s.Name == "AdminApproved");
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }

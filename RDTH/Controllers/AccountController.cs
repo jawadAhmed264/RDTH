@@ -25,6 +25,8 @@ namespace RDTH.Controllers
         private readonly ILogger _logger;
         private readonly ICardService _cardService;
         private readonly ICustomer _customerService;
+        private readonly ICustomerPackage _customerPackage;
+
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -32,7 +34,8 @@ namespace RDTH.Controllers
             IEmailSender emailSender,
             ILogger<AccountController> logger,
             ICustomer customerService,
-            ICardService cardService)
+            ICardService cardService,
+            ICustomerPackage customerPackage)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -40,6 +43,7 @@ namespace RDTH.Controllers
             _logger = logger;
             _customerService = customerService;
             _cardService = cardService;
+            _customerPackage = customerPackage;
         }
 
         [TempData]
@@ -236,13 +240,20 @@ namespace RDTH.Controllers
 
                     if (result.Succeeded)
                     {
-                        _customerService.Add(new Customer
+
+                        Customer cus = new Customer
                         {
                             ApplicationUser = user,
                             CustomerCard = card,
                             FirstName = fullname[0],
                             LastName = fullname[1],
-                        });
+                        };
+
+                        _customerService.Add(cus);
+
+                        CustomerPackage cp = _customerPackage.GetByCardId(card.Id);
+                        cp.Customer = cus;
+                        _customerPackage.Update(cp);
                         await _userManager.AddToRoleAsync(user, "User");
                     }
 
@@ -274,6 +285,7 @@ namespace RDTH.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
+            HttpContext.Session.SetString("Cart", "");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

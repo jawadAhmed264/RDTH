@@ -149,11 +149,11 @@ namespace RDTH.Data.Migrations
 
                     b.Property<int?>("CartId");
 
+                    b.Property<int>("Price");
+
                     b.Property<int?>("ProductId");
 
-                    b.Property<int>("Quantity");
-
-                    b.Property<decimal>("Total");
+                    b.Property<int>("Qty");
 
                     b.HasKey("Id");
 
@@ -417,11 +417,17 @@ namespace RDTH.Data.Migrations
 
                     b.Property<int?>("CartId");
 
+                    b.Property<string>("Contact");
+
                     b.Property<DateTime>("DatePlaced");
 
                     b.Property<int?>("DealerId");
 
                     b.Property<int?>("DistributerId");
+
+                    b.Property<string>("PersonName");
+
+                    b.Property<string>("ShippingAddress");
 
                     b.Property<int?>("StatusId");
 
@@ -473,6 +479,8 @@ namespace RDTH.Data.Migrations
 
                     b.Property<DateTime>("CardExpiry");
 
+                    b.Property<string>("Contact");
+
                     b.Property<decimal>("Cost");
 
                     b.Property<string>("CreditCardNumber");
@@ -486,6 +494,8 @@ namespace RDTH.Data.Migrations
                     b.Property<DateTime>("PaymentDate");
 
                     b.Property<string>("PaymentType");
+
+                    b.Property<string>("PersonName");
 
                     b.HasKey("Id");
 
@@ -658,8 +668,8 @@ namespace RDTH.Data.Migrations
 
             modelBuilder.Entity("RDTH.Data.Models.CartItem", b =>
                 {
-                    b.HasOne("RDTH.Data.Models.Cart", "Cart")
-                        .WithMany("CartItems")
+                    b.HasOne("RDTH.Data.Models.Cart")
+                        .WithMany("ItemList")
                         .HasForeignKey("CartId");
 
                     b.HasOne("RDTH.Data.Models.SetBox", "Product")

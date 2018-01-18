@@ -6,6 +6,8 @@ namespace RDTH.Data.Models
     {
         public int Id { get; set; }
         public DateTime PaymentDate { get; set; }
+        public string PersonName { get; set; }
+        public string Contact { get; set; }
         public string PaymentType { get; set; }
         public string CreditCardNumber { get; set; }
         public DateTime CardExpiry { get; set; }
