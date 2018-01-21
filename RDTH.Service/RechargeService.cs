@@ -24,7 +24,9 @@ namespace RDTH.Service
         public IEnumerable<Recharge> GetAll()
         {
             return _con.RechargeHistory.
-                Include(r=>r.CustomerCard).Include(r=>r.Package);
+                Include(r=>r.CustomerCard).
+                Include(r=>r.Package).
+                OrderByDescending(r=>r.RechargeDate);
         }
 
         public Recharge GetById(int Id)

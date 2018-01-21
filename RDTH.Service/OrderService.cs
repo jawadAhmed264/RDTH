@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RDTH.Data;
 using RDTH.Data.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace RDTH.Service
 {
@@ -27,7 +25,7 @@ namespace RDTH.Service
         {
             return _con.Orders.
                 Include(o=>o.Status).
-                Include(o=>o.Cart);
+                Include(o=>o.Details);
         }
 
         public Order GetById(int OrderId)

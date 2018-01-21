@@ -28,7 +28,7 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/Package
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Packages.ToListAsync());
+            return View(await _context.Packages.Include(p=>p.Id).ToListAsync());
         }
 
         // GET: Admin/Package/Details/5

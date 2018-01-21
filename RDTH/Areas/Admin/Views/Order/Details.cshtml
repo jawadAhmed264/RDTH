@@ -1,13 +1,14 @@
-﻿@model RDTH.Data.Models.Order
+﻿@using RDTH.Areas.Admin.Models.OrderViewModel
+@model OrderDetailModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Order Details";
 }
 
-<h2>Details</h2>
+<h2>Order Details</h2>
 <div class="row">
     <div class="col-md-12">
-        <h4>Order Details</h4>
+        <h4>Order Placed By @Model.PersonName</h4>
         <hr />
         <dl class="dl-horizontal">
             <dt>
@@ -35,38 +36,40 @@
                 @Html.DisplayFor(model => model.ShippingAddress)
             </dd>
             <dt>
-                @Html.DisplayNameFor(model => model.Status.Name)
+                @Html.DisplayNameFor(model => model.Status)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.Status.Name)
-            </dd>
-            <dt>
-                Total Price
-            </dt>
-            <dd class="text-info">
-                @Html.DisplayNameFor(model => model.Cart.TotalPrice)
+                @Html.DisplayFor(model => model.Status)
             </dd>
         </dl>
     </div>
+    <div>
+        <a asp-action="Approved" class="btn btn-success" asp-route-id="@Model.Id">Approved</a> |
+        <a asp-action="Rejected" class="btn btn-danger" asp-route-id="@Model.Id">Reject</a>
+    </div>
 </div>
-<hr />
+<br />
 <div class="row">
+    <h3>Product List</h3>
     <div class="col-md-12">
         <table class="table table-condensed">
             <thead>
                 <tr>
-                    <th></th>
+                    <th>Product</th>
+                    <th>Product Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var items in Model.Cart.ItemList)
+                @foreach (var items in Model.Details)
                 {
-                <tr>
-                    <td>@items.Product.Name</td>
-                    <td>@items.Product.Price</td>
-                    <td>@items.Qty</td>
-                    <td>@items.Price</td>
-                </tr>
+                    <tr>
+                        <td>@items.Product.Name</td>
+                        <td>@items.Product.Price</td>
+                        <td>@items.Qty</td>
+                        <td>@items.Price</td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -74,12 +77,33 @@
 </div>
 <div class="row">
     <div class="col-md-12">
-        <h4 class="text-warning">Total Items : @Model.Cart.TotalItems</h4>
-        <h4 class="text-danger">Total Price : Rs.@Model.Cart.TotalPrice</h4>
+        <h4 class="text-warning">Total Items : @Model.TotalItems</h4>
+        <h4 class="text-danger">Total Price : Rs.@Model.TotalPrice</h4>
+    </div>
+</div>
+<div class="row">
+    <h3>Order Payment Details</h3>
+    <div class="col-md-12">
+        <table class="table table-condensed">
+            <thead>
+                <tr>
+                    <th>Payment Date</th>
+                    <th>Payment Type</th>
+                    <th>Credit Card Expiry Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Model.Payment.PaymentDate</td>
+                    <td>@Model.Payment.PaymentType</td>
+                    <td>@Model.Payment.CardExpiry.ToShortDateString()</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 <hr />
 <div>
-    <a asp-action="Approved" asp-route-id="@Model.Id">Approved</a> |
     <a asp-action="Index">Back to List</a>
 </div>
+<br />

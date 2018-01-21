@@ -21,7 +21,10 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/FeedBack
         public async Task<IActionResult> Index()
         {
-            return View(await _context.FeedBacks.Include(m=>m.Status).ToListAsync());
+            return View(await _context.FeedBacks.
+                Include(m=>m.Status).
+                OrderByDescending(m=>m.Date).
+                ToListAsync());
         }
 
 

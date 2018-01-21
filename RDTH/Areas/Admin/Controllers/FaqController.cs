@@ -22,7 +22,7 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/Faq
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Faqs.ToListAsync());
+            return View(await _context.Faqs.OrderByDescending(m=>m.Id).ToListAsync());
         }
 
         // GET: Admin/Faq/Details/5

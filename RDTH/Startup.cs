@@ -57,6 +57,8 @@ namespace RDTH
             services.AddScoped<IRechargeService, RechargeService>();
             services.AddScoped<INewSetBoxRequest, NewSetBoxRequestService>();
             services.AddScoped<IOrder, OrderService>();
+            services.AddScoped<IPayment, PaymentService>();
+
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 

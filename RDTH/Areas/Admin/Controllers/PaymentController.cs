@@ -21,7 +21,10 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/Payment
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Payments.ToListAsync());
+            return View(await _context.Payments.
+                Include(p=>p.Order).
+                OrderByDescending(p=>p.PaymentDate).
+                ToListAsync());
         }
 
         private bool PaymentExists(int id)

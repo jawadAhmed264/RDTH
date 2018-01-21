@@ -16,7 +16,7 @@ namespace RDTH.ViewComponents
             Cart cart;
             int? TotalItems = 0;
 
-            if (TotalItems == null)
+            if (TotalItems == null || cartSeesion=="")
             {
                 TotalItems = 0;
             }

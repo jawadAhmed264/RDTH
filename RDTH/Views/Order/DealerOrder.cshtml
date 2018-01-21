@@ -27,10 +27,10 @@
                     @Html.DisplayNameFor(model => model.Status.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cart.TotalItems)
+                    Items
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Cart.TotalPrice)
+                    Price
                 </th>
             </tr>
         </thead>
@@ -54,10 +54,10 @@
                         @Html.DisplayFor(modelItem => item.Status.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Cart.TotalItems)
+                        @Html.DisplayFor(modelItem => item.TotalItems)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Cart.TotalPrice)
+                        @Html.DisplayFor(modelItem => item.TotalPrice)
                     </td>
                 </tr>
             }

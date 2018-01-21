@@ -28,7 +28,7 @@ namespace RDTH.Areas.Admin.Controllers
         {
             var payments = _con.Payments;
             var Recharges = _con.RechargeHistory.Include(r => r.Package).Include(r => r.CustomerCard);
-            var Orders = _con.Orders.Include(o => o.Status).Include(o => o.Cart);
+            var Orders = _con.Orders.Include(o => o.Status).Include(o => o.Details);
             var Feedbacks = _con.FeedBacks.Include(f => f.Status);
             var request = _con.NewSetBoxRequest.Include(r => r.Status);
             var mod = _con.MoviesOnDemand.Include(m => m.Status);

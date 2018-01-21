@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RDTH.Areas.Admin.Models.OrderViewModel;
 using RDTH.Data;
 
 namespace RDTH.Areas.Admin.Controllers
@@ -23,6 +24,8 @@ namespace RDTH.Areas.Admin.Controllers
         {
             return View(await _context.Orders.
                 Include(m => m.Status).
+                Include(m=>m.Details).
+                OrderByDescending(m=>m.DatePlaced).
                 ToListAsync());
         }
 
@@ -36,15 +39,28 @@ namespace RDTH.Areas.Admin.Controllers
 
             var order = await _context.Orders.
                 Include(m => m.Status).
-                Include(m => m.Cart).
-                SingleOrDefaultAsync(m => m.Id == id);
+                Include(m => m.Details).
+                FirstOrDefaultAsync(m => m.Id == id);
+
+            var model = new OrderDetailModel {
+                Id = order.Id,
+                Contact = order.Contact,
+                ShippingAddress = order.ShippingAddress,
+                DatePlaced = order.DatePlaced,
+                PersonName = order.PersonName,
+                Status = order.Status.Name,
+                TotalItems = order.TotalItems,
+                TotalPrice = order.TotalPrice,
+                Details = await _context.OrderDetails.Include(d => d.Product).Where(d => d.Order.Id == order.Id).ToListAsync(),
+                Payment = await _context.Payments.Include(p=>p.Order).SingleOrDefaultAsync(p=>p.Order.Id==order.Id)
+            };
 
             if (order == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(model);
         }
 
         public IActionResult Approved(int? id)
@@ -57,6 +73,20 @@ namespace RDTH.Areas.Admin.Controllers
             var order = _context.Orders.SingleOrDefault(m=>m.Id==id);
             _context.Update(order);
             order.Status = _context.Status.SingleOrDefault(s=>s.Name== "AdminApproved");
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+        public IActionResult Rejected(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var order = _context.Orders.SingleOrDefault(m => m.Id == id);
+            _context.Update(order);
+            order.Status = _context.Status.SingleOrDefault(s => s.Name == "AdminReject");
             _context.SaveChanges();
 
             return RedirectToAction("Index");

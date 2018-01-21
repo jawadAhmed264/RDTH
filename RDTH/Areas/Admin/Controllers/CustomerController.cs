@@ -76,36 +76,7 @@ namespace RDTH.Areas.Admin.Controllers
             }
             return View(customer);
         }
-
-        // GET: Admin/Customer/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
-            return View(customer);
-        }
-
-        // POST: Admin/Customer/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+        
         private bool CustomerExists(int id)
         {
             return _context.Customers.Any(e => e.Id == id);

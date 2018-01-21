@@ -50,15 +50,15 @@ namespace RDTH.Areas.Admin.Controllers
         }
 
         // GET: Admin/CustomerCard/Create
-        public IActionResult Create(int id)
+        public async Task<IActionResult> Create(int id)
         {
-            var Subscriber = _context.NewSubscribes.
+            var Subscriber =await _context.NewSubscribes.
                 Include(s => s.Package).
                 Include(s => s.SetBox).
-                SingleOrDefault(s => s.Id == id);
+                SingleOrDefaultAsync(s => s.Id == id);
 
             _context.Update(Subscriber);
-            Subscriber.Status = _context.Status.FirstOrDefault(st => st.Name == "Viewed");
+            Subscriber.Status =await _context.Status.FirstOrDefaultAsync(st => st.Name == "Viewed");
             _context.SaveChanges();
 
             CardAddModel card = new CardAddModel()
@@ -90,8 +90,8 @@ namespace RDTH.Areas.Admin.Controllers
                     CardNumber = model.CardNumber,
                     ContactNumber = model.ContactNumber,
                     OwnerName = model.OwnerName,
-                    Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
-                    SetBox = _context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId)
+                    Package =await _context.Packages.FirstOrDefaultAsync(p => p.Id == model.PackageId),
+                    SetBox =await _context.SetBoxes.FirstOrDefaultAsync(s => s.Id == model.SetBoxId)
                 };
 
                 CustomerPackage cp = new CustomerPackage
@@ -99,20 +99,21 @@ namespace RDTH.Areas.Admin.Controllers
                     CustomerCard = customerCard,
                     NumberOfMonths = 0,
                     ExpirationDate = DateTime.Now,
-                    Package = _context.Packages.FirstOrDefault(p => p.Id == model.PackageId),
-                    Status = _context.Status.SingleOrDefault(s => s.Name == "Recharged")
+                    Package =await _context.Packages.FirstOrDefaultAsync(p => p.Id == model.PackageId),
+                    Status =await _context.Status.SingleOrDefaultAsync(s => s.Name == "Recharged")
                 };
 
                 NewSetBoxRequest request = new NewSetBoxRequest()
                 {
                     Card=customerCard,
-                    Setbox=_context.SetBoxes.FirstOrDefault(s => s.Id == model.SetBoxId),
-                    Status=_context.Status.SingleOrDefault(s => s.Name == "AdminApproved")
+                    Setbox=await _context.SetBoxes.FirstOrDefaultAsync(s => s.Id == model.SetBoxId),
+                    Status=await _context.Status.SingleOrDefaultAsync(s => s.Name == "AdminApproved")
                 };
 
-                _context.Add(customerCard);
-                _context.Add(cp);
-                _context.Add(request);
+                await _context.AddAsync(customerCard);
+                await _context.AddAsync(cp);
+                await _context.AddAsync(request);
+
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -196,35 +197,6 @@ namespace RDTH.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
-        }
-
-        // GET: Admin/CustomerCard/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customerCard = await _context.CustomerCards
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (customerCard == null)
-            {
-                return NotFound();
-            }
-
-            return View(customerCard);
-        }
-
-        // POST: Admin/CustomerCard/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var customerCard = await _context.CustomerCards.SingleOrDefaultAsync(m => m.Id == id);
-            _context.CustomerCards.Remove(customerCard);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerCardExists(int id)

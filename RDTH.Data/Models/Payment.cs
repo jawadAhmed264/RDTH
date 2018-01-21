@@ -16,5 +16,7 @@ namespace RDTH.Data.Models
         //navigational property
 
         public virtual Order Order { get; set; }
+        public virtual Dealer Dealer { get; set; }
+        public virtual Distributer Distributer { get; set; }
     }
 }

@@ -33,7 +33,7 @@ namespace RDTH.Service
                 Include(r => r.Card).
                 Include(r => r.Setbox).
                 Include(r => r.Status).
-                OrderByDescending(r => r.Id);
+                OrderBy(r => r.Id);
         }
 
         public IEnumerable<NewSetBoxRequest> GetByCard(string card)

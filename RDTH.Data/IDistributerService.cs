@@ -1,5 +1,7 @@
 ﻿using RDTH.Data.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RDTH.Data
 {
@@ -10,5 +12,6 @@ namespace RDTH.Data
         IEnumerable<Payment> GetPayments(int DisId);
         Distributer GetByUserId(string UserId);
         Distributer GetById(int Id);
+        Task<int> PlacedOrderAsync(Distributer dis, Cart cart, Order newOrder, Payment newPayment);
     }
 }

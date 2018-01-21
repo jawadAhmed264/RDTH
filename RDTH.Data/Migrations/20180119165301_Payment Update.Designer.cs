@@ -11,9 +11,10 @@ using System;
 namespace RDTH.Data.Migrations
 {
     [DbContext(typeof(RDTHDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180119165301_Payment Update")]
+    partial class PaymentUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,6 +127,42 @@ namespace RDTH.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("RDTH.Data.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("TotalItems");
+
+                    b.Property<decimal>("TotalPrice");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("RDTH.Data.Models.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("CartId");
+
+                    b.Property<decimal>("Price");
+
+                    b.Property<int?>("ProductId");
+
+                    b.Property<int>("Qty");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("RDTH.Data.Models.Customer", b =>
@@ -379,6 +416,8 @@ namespace RDTH.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int?>("CartId");
+
                     b.Property<string>("Contact");
 
                     b.Property<DateTime>("DatePlaced");
@@ -393,11 +432,9 @@ namespace RDTH.Data.Migrations
 
                     b.Property<int?>("StatusId");
 
-                    b.Property<int>("TotalItems");
-
-                    b.Property<decimal>("TotalPrice");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("CartId");
 
                     b.HasIndex("DealerId");
 
@@ -406,28 +443,6 @@ namespace RDTH.Data.Migrations
                     b.HasIndex("StatusId");
 
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("RDTH.Data.Models.OrderDetail", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("OrderId");
-
-                    b.Property<decimal>("Price");
-
-                    b.Property<int?>("ProductId");
-
-                    b.Property<int>("Qty");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("RDTH.Data.Models.Package", b =>
@@ -652,6 +667,17 @@ namespace RDTH.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("RDTH.Data.Models.CartItem", b =>
+                {
+                    b.HasOne("RDTH.Data.Models.Cart", "Cart")
+                        .WithMany("ItemList")
+                        .HasForeignKey("CartId");
+
+                    b.HasOne("RDTH.Data.Models.SetBox", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("RDTH.Data.Models.Customer", b =>
                 {
                     b.HasOne("RDTH.Models.ApplicationUser", "ApplicationUser")
@@ -757,6 +783,10 @@ namespace RDTH.Data.Migrations
 
             modelBuilder.Entity("RDTH.Data.Models.Order", b =>
                 {
+                    b.HasOne("RDTH.Data.Models.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId");
+
                     b.HasOne("RDTH.Data.Models.Dealer", "Dealer")
                         .WithMany("Orders")
                         .HasForeignKey("DealerId");
@@ -768,17 +798,6 @@ namespace RDTH.Data.Migrations
                     b.HasOne("RDTH.Data.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId");
-                });
-
-            modelBuilder.Entity("RDTH.Data.Models.OrderDetail", b =>
-                {
-                    b.HasOne("RDTH.Data.Models.Order", "Order")
-                        .WithMany("Details")
-                        .HasForeignKey("OrderId");
-
-                    b.HasOne("RDTH.Data.Models.SetBox", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId");
                 });
 
             modelBuilder.Entity("RDTH.Data.Models.Payment", b =>

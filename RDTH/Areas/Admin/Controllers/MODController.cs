@@ -25,6 +25,7 @@ namespace RDTH.Areas.Admin.Controllers
             var movies = await _context.MoviesOnDemand.
                 Include(m => m.Status).
                 Include(m => m.Customer).
+                OrderByDescending(m=>m.Id).
                 Select(m => new ModDetailModel()
                 {
                     Id = m.Id,

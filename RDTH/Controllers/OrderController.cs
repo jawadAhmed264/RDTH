@@ -8,7 +8,6 @@ namespace RDTH.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly IOrder _orderService;
         private readonly IDealerService _dealerService;
         private readonly IDistributerService _disService;
         UserManager<ApplicationUser> _userManager;
@@ -19,7 +18,6 @@ namespace RDTH.Controllers
             IDistributerService disService,
             UserManager<ApplicationUser> userManager)
         {
-            _orderService = orderService;
             _dealerService = dealerService;
             _disService = disService;
             _userManager = userManager;

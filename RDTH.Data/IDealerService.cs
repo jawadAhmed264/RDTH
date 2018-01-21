@@ -1,5 +1,7 @@
 ﻿using RDTH.Data.Models;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RDTH.Data
 {
@@ -11,6 +13,6 @@ namespace RDTH.Data
         Dealer GetById(int DealerId);
         Dealer GetByUserId(string UserId);
         void Add(Dealer newDealer);
-
+        Task<int> PlacedOrderAsync(Dealer dealer, Cart cart, Order newOrder, Payment newPayment);
     }
 }

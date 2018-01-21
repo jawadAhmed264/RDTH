@@ -25,6 +25,7 @@ namespace RDTH.Areas.Admin.Controllers
                 Include(s=>s.Package).
                 Include(s=>s.SetBox).
                 Include(s=>s.Status).
+                OrderByDescending(s=>s.ApplyDate).
                 ToListAsync());
         }
 

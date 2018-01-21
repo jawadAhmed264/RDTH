@@ -13,7 +13,6 @@ namespace RDTH.Controllers
     public class CartController : Controller
     {
         private readonly ISetBoxService _setBoxService;
-        private static List<CartItem> CartItems = new List<CartItem>();
         private static int CartItemId = 0;
 
         public CartController
@@ -40,27 +39,39 @@ namespace RDTH.Controllers
         [HttpPost]
         public IActionResult AddToCart(int Id, int qty)
         {
+            List<CartItem> CartItems;
             var CartSession = HttpContext.Session.GetString("Cart");
             Cart Cart;
             if (CartSession == null)
             {
                 Cart = new Cart();
+                CartItems = new List<CartItem>();
             }
             else
             {
                 Cart = JsonConvert.DeserializeObject<Cart>(HttpContext.Session.GetString("Cart"));
+                CartItems = Cart.ItemList;
             }
 
             SetBox sb = _setBoxService.GetById(Id);
-
-            CartItem item = new CartItem
+            if (CartItems.Any(i => i.Product.Name == sb.Name))
             {
-                Id = ++CartItemId,
-                Product = sb,
-                Qty = qty,
-                Price = qty * sb.Price
-            };
-            CartItems.Add(item);
+                CartItems.SingleOrDefault(i=>i.Id==Id).Qty += qty;
+                CartItems.SingleOrDefault(i => i.Id == Id).Price += (qty*sb.Price) ;
+
+            }
+            else
+            {
+                CartItem item = new CartItem
+                {
+                    Id= ++CartItemId,
+                    Product = sb,
+                    Qty = qty,
+                    Price = qty * sb.Price
+                };
+
+                CartItems.Add(item);
+            }
             Cart.ItemList = CartItems;
             Cart.TotalPrice = Cart.ItemList.Sum(m => m.Price);
             Cart.TotalItems = Cart.ItemList.Sum(m => m.Qty);
@@ -92,9 +103,7 @@ namespace RDTH.Controllers
                 return NotFound();
             }
 
-            CartItems.Remove(item);
-
-            Cart.ItemList = CartItems;
+            Cart.ItemList.Remove(item);
             Cart.TotalPrice = Cart.ItemList.Sum(m => m.Price);
             Cart.TotalItems = Cart.ItemList.Sum(m => m.Qty);
 

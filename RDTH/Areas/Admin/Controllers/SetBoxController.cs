@@ -28,7 +28,7 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/SetBox
         public async Task<IActionResult> Index()
         {
-            return View(await _context.SetBoxes.ToListAsync());
+            return View(await _context.SetBoxes.OrderByDescending(s=>s.Id).ToListAsync());
         }
 
         // GET: Admin/SetBox/Details/5

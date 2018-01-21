@@ -23,9 +23,8 @@ namespace RDTH.Data
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<FeedBack> FeedBacks { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Payment> Payments { get; set; }
-        public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Recharge> RechargeHistory { get; set; }
         public DbSet<CustomerPackage> CustomerPackages { get; set; }
         public DbSet<Status> Status { get; set; }

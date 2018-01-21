@@ -43,6 +43,13 @@ namespace RDTH.Controllers
                 Price = s.Price,
                 Specification = s.Specification
             });
+
+            if (TempData["OrderPlaced"]!=null)
+            {
+                ViewBag.OrderPlaced = TempData["OrderPlaced"].ToString();
+                ViewBag.OrderMsg = TempData["OrderMsg"].ToString();
+            }
+
             var model = new SetBoxIndexModel() { SetBoxList = devices };
             return View(model);
         }

@@ -17,5 +17,7 @@ namespace RDTH.Data.Models
         public decimal Price { get; set; }
         public int Qty { get; set; }
         public virtual SetBox Product { get; set; }
+        public virtual Cart Cart { get; set; }
+
     }
 }
