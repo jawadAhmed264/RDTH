@@ -28,7 +28,7 @@ namespace RDTH.Areas.Admin.Controllers
         {
             var payments = _con.Payments;
             var Recharges = _con.RechargeHistory.Include(r => r.Package).Include(r => r.CustomerCard);
-            var Orders = _con.Orders.Include(o => o.Status).Include(o => o.Details);
+            var Orders = _con.Orders.Include(o => o.Status);
             var Feedbacks = _con.FeedBacks.Include(f => f.Status);
             var request = _con.NewSetBoxRequest.Include(r => r.Status);
             var mod = _con.MoviesOnDemand.Include(m => m.Status);
@@ -36,7 +36,7 @@ namespace RDTH.Areas.Admin.Controllers
 
             AdminIndexViewModel model = new AdminIndexViewModel()
             {
-                Feedbacks = Feedbacks.OrderByDescending(f => f.Id).Take(20),
+                Feedbacks = Feedbacks.Where(f=>f.Status.Name== "Pending").OrderByDescending(f => f.Id).Take(20),
                 Orders = Orders.OrderByDescending(f => f.Id).Take(20),
                 Payments = payments.OrderByDescending(f => f.Id).Take(20),
                 RechargeCatalog = Recharges.OrderByDescending(f => f.Id).Take(20),

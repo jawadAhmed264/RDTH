@@ -27,8 +27,9 @@ namespace RDTH.Areas.Admin.Controllers
         {
             return View(await _context.CustomerCards.
                 Include(c => c.Package).
-                Include(c => c.SetBox)
-                .ToListAsync());
+                Include(c => c.SetBox).
+                OrderByDescending(c=>c.SubscribeDate).
+                ToListAsync());
         }
 
         // GET: Admin/CustomerCard/Details/5
@@ -63,6 +64,7 @@ namespace RDTH.Areas.Admin.Controllers
 
             CardAddModel card = new CardAddModel()
             {
+                Id= id,
                 Address = Subscriber.Address,
                 CardNumber = CardNumberGenerator.CardNumber(),
                 ContactNumber = Subscriber.ContactNumber,
@@ -79,7 +81,7 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OwnerName,ContactNumber,Address,CardNumber,SubscribeDate", "PackageId", "SetBoxId")] CardAddModel model)
+        public async Task<IActionResult> Create([Bind("Id,OwnerName,ContactNumber,Address,CardNumber,SubscribeDate", "PackageId", "SetBoxId")] CardAddModel model)
         {
             if (ModelState.IsValid)
             {
@@ -93,6 +95,7 @@ namespace RDTH.Areas.Admin.Controllers
                     Package =await _context.Packages.FirstOrDefaultAsync(p => p.Id == model.PackageId),
                     SetBox =await _context.SetBoxes.FirstOrDefaultAsync(s => s.Id == model.SetBoxId)
                 };
+                await _context.CustomerCards.AddAsync(customerCard);
 
                 CustomerPackage cp = new CustomerPackage
                 {
@@ -102,6 +105,7 @@ namespace RDTH.Areas.Admin.Controllers
                     Package =await _context.Packages.FirstOrDefaultAsync(p => p.Id == model.PackageId),
                     Status =await _context.Status.SingleOrDefaultAsync(s => s.Name == "Recharged")
                 };
+                await _context.CustomerPackages.AddAsync(cp);
 
                 NewSetBoxRequest request = new NewSetBoxRequest()
                 {
@@ -109,11 +113,16 @@ namespace RDTH.Areas.Admin.Controllers
                     Setbox=await _context.SetBoxes.FirstOrDefaultAsync(s => s.Id == model.SetBoxId),
                     Status=await _context.Status.SingleOrDefaultAsync(s => s.Name == "AdminApproved")
                 };
+                await _context.NewSetBoxRequest.AddAsync(request);
 
-                await _context.AddAsync(customerCard);
-                await _context.AddAsync(cp);
-                await _context.AddAsync(request);
+                var Subscriber = await _context.NewSubscribes.
+                Include(s => s.Package).
+                Include(s => s.SetBox).
+                SingleOrDefaultAsync(s => s.Id == model.Id);
 
+                _context.Update(Subscriber);
+                Subscriber.Status = await _context.Status.FirstOrDefaultAsync(st => st.Name == "AdminApproved");
+   
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

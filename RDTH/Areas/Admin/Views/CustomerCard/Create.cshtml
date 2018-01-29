@@ -11,7 +11,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="OwnerName" class="control-label"></label>
@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="CardNumber" class="control-label"></label>
-                <input disabled asp-for="CardNumber" class="form-control" />
+                <input asp-for="CardNumber" class="form-control" readonly />
                 <span asp-validation-for="CardNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -40,12 +40,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="PackageId" class="control-label"></label>
-                <input disabled asp-for="PackageId" class="form-control" />
+                <input asp-for="PackageId" class="form-control" readonly />
                 <span asp-validation-for="PackageId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="SetBoxId" class="control-label"></label>
-                <input disabled asp-for="SetBoxId" class="form-control" />
+                <input asp-for="SetBoxId" class="form-control" readonly />
                 <span asp-validation-for="SetBoxId" class="text-danger"></span>
             </div>
             <div class="form-group">

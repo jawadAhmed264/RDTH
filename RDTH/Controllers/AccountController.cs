@@ -236,8 +236,6 @@ namespace RDTH.Controllers
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                     var result = await _userManager.CreateAsync(user, model.Password);
 
-                    string[] fullname = card.OwnerName.Split(" ");
-
                     if (result.Succeeded)
                     {
 
@@ -245,8 +243,7 @@ namespace RDTH.Controllers
                         {
                             ApplicationUser = user,
                             CustomerCard = card,
-                            FirstName = fullname[0],
-                            LastName = fullname[1],
+                            CustomerName=card.OwnerName
                         };
 
                         _customerService.Add(cus);
@@ -285,7 +282,7 @@ namespace RDTH.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            HttpContext.Session.SetString("Cart", "");
+            HttpContext.Session.Remove("Cart");
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 

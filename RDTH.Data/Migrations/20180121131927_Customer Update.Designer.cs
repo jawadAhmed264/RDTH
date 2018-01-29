@@ -11,9 +11,10 @@ using System;
 namespace RDTH.Data.Migrations
 {
     [DbContext(typeof(RDTHDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180121131927_Customer Update")]
+    partial class CustomerUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

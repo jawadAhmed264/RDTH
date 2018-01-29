@@ -50,6 +50,13 @@ namespace RDTH.Controllers
                 ViewBag.OrderMsg = TempData["OrderMsg"].ToString();
             }
 
+            if (TempData["SetBoxChanged"] != null)
+            {
+                ViewBag.SetBoxChange=TempData["SetBoxChanged"].ToString();
+                ViewBag.SetBoxChangeMsg=TempData["SetBoxChangedMsg"].ToString();
+            }
+
+
             var model = new SetBoxIndexModel() { SetBoxList = devices };
             return View(model);
         }
@@ -68,6 +75,7 @@ namespace RDTH.Controllers
 
             return View(model);
         }
+
         [Authorize(Roles = "User")]
         [HttpGet]
         public IActionResult ChangeSetBox(int? setBoxId)
@@ -120,9 +128,9 @@ namespace RDTH.Controllers
                 };
 
                 _setBoxRequest.Add(request);
+                TempData["SetBoxChanged"] = "success";
+                TempData["SetBoxChangedMsg"] = "Your Request has been sent.";
                 ModelState.Clear();
-                ViewBag.success = "success";
-                ViewBag.msg = "Your Request sent to admin for approval";
                 return RedirectToAction("Index");
             }
 
@@ -138,10 +146,13 @@ namespace RDTH.Controllers
         }
 
         [Authorize(Roles = "Distributer,Dealer")]
-        [HttpPost]
-        public IActionResult Delivered(NewSetBoxRequest model)
+        [HttpGet]
+        public IActionResult Delivered(int? Id)
         {
-            var request = model;
+            if (Id == null) {
+                return NotFound();
+            }
+            var request = _setBoxRequest.GetById(Id);
             request.Status = _statusService.GetByName("Delivered");
             _setBoxRequest.Update(request);
             return RedirectToAction("CustomerSetBoxRequest");

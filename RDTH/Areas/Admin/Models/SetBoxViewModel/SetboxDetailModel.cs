@@ -7,7 +7,9 @@ namespace RDTH.Areas.Admin.Models.SetBoxViewModel
     {
         [Required]
         public string Name { get; set; }
+        [Required]
         public string Specification { get; set; }
+        [Required]
         public decimal Price { get; set; }
         [Required]
         public IFormFile Image { get; set; }

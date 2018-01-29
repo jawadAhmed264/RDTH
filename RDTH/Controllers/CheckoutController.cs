@@ -61,7 +61,7 @@ namespace RDTH.Controllers
                 {
                     PersonName = distributer.FirstName + " " + distributer.LastName,
                     Contact = distributer.Telephone,
-                    ShippingAddress = distributer.Address,
+                    ShippingAddress = distributer.Address + "," + distributer.City,
                     Cart = cart
                 };
                 return View(model);
@@ -135,7 +135,7 @@ namespace RDTH.Controllers
                         Cost = cart.TotalPrice,
                         PaymentType = model.PaymentType,
                     };
-
+                    int result = await _disService.PlacedOrderAsync(dis, cart, order, payment);
                 }
                 ModelState.Clear();
                 TempData["OrderPlaced"] = "success";

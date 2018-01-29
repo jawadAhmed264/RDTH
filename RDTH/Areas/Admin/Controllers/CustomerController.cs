@@ -1,8 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using RDTH.Areas.Admin.Models.CustomerViewModel;
 using RDTH.Data;
 using RDTH.Data.Models;
 
@@ -22,7 +24,11 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/Customer
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.Include(c=>c.CustomerCard).ToListAsync());
+            return View(await _context.Customers.
+                Include(m=>m.ApplicationUser).
+                Include(c=>c.CustomerCard).Select(c=>new CustomerDetailModel {
+                Id=c.Id,Name=c.CustomerName,Email=c.ApplicationUser.Email,Contact=c.CustomerCard.ContactNumber,Card=c.CustomerCard.CardNumber}).
+                ToListAsync());
         }
 
 

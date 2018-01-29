@@ -161,6 +161,7 @@ namespace RDTH.Controllers
 
                 var cp = _cpService.GetByCardId(card.Id);
                 cp.Package = package;
+                cp.ExpirationDate = DateTime.Now;
                 cp.Status = _statusService.GetByName("Recharged");
                 _cpService.Update(cp);
 

@@ -13,20 +13,15 @@ namespace RDTH.ViewComponents
         public IViewComponentResult Invoke()
         {
             var cartSeesion = HttpContext.Session.GetString("Cart");
-            Cart cart;
-            int? TotalItems = 0;
-
-            if (TotalItems == null || cartSeesion=="")
-            {
-                TotalItems = 0;
-            }
-            if(cartSeesion!=null)
+            int? total = 0;
+            Cart cart = new Cart();
+            if (!string.IsNullOrEmpty(cartSeesion))
             {
                 cart = JsonConvert.DeserializeObject<Cart>(HttpContext.Session.GetString("Cart"));
-                TotalItems = cart.TotalItems;
+                total = cart.TotalItems;
             }
 
-            ViewBag.TotalItems = TotalItems;
+            ViewBag.TotalItems = total;
             return View();
         }
     }

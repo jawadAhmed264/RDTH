@@ -27,11 +27,17 @@ namespace RDTH.Controllers
         public IActionResult Index()
         {
             var CartSession = HttpContext.Session.GetString("Cart");
+
             if (CartSession != null)
             {
                 Cart Cart = JsonConvert.DeserializeObject<Cart>(HttpContext.Session.GetString("Cart"));
+                if (Cart.ItemList.Count() == 0)
+                {
+                    return RedirectToAction("Index", "Setbox");
+                }
                 return View(Cart);
             }
+
             return RedirectToAction("Index", "Setbox");
         }
 
@@ -56,15 +62,15 @@ namespace RDTH.Controllers
             SetBox sb = _setBoxService.GetById(Id);
             if (CartItems.Any(i => i.Product.Name == sb.Name))
             {
-                CartItems.SingleOrDefault(i=>i.Id==Id).Qty += qty;
-                CartItems.SingleOrDefault(i => i.Id == Id).Price += (qty*sb.Price) ;
+                CartItems.SingleOrDefault(i => i.Id == Id).Qty += qty;
+                CartItems.SingleOrDefault(i => i.Id == Id).Price += (qty * sb.Price);
 
             }
             else
             {
                 CartItem item = new CartItem
                 {
-                    Id= ++CartItemId,
+                    Id = ++CartItemId,
                     Product = sb,
                     Qty = qty,
                     Price = qty * sb.Price

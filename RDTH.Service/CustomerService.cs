@@ -16,7 +16,7 @@ namespace RDTH.Service
 
         public void Add(Customer newCustomer)
         {
-            _con.Add(newCustomer);
+            _con.Customers.Add(newCustomer);
             _con.SaveChanges();
         }
 

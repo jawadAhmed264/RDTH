@@ -28,7 +28,7 @@ namespace RDTH.Areas.Admin.Controllers
         // GET: Admin/Package
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Packages.Include(p=>p.Id).ToListAsync());
+            return View(await _context.Packages.ToListAsync());
         }
 
         // GET: Admin/Package/Details/5
@@ -60,7 +60,7 @@ namespace RDTH.Areas.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PackageName,NoOfChannels,NewsChannel,EntertainmentChannel,SportsChannel,DocumentariesChannel,Charges,Image")] PackageDetailModel model)
+        public async Task<IActionResult> Create(PackageDetailModel model)
         {
             if (ModelState.IsValid)
             {

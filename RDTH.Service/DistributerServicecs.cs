@@ -69,6 +69,7 @@ namespace RDTH.Service
             newPayment.Order = newOrder;
             await _con.Payments.AddAsync(newPayment);
             int result = await _con.SaveChangesAsync();
+
             if (result > 0)
             {
                 return 1;

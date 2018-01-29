@@ -28,10 +28,9 @@
                     <td>@item.Setbox.Name</td>
                     <td>@item.Status.Name</td>
                     <td>
-                        <form action="Delivered">
-                            <input type="hidden" asp-for="@item.Id" />
-                            <input type="submit" value="Delivered" />
-                        </form>
+                        <a asp-action="Delivered" asp-route-Id="@item.Id" class="btn btn-default">
+                            Delivered
+                        </a>
                     </td>
                 </tr>
             }

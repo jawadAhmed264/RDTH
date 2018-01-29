@@ -18,12 +18,14 @@ namespace RDTH.Areas.Admin.Models.CustomerCardViewModel
         [RegularExpression(@"^[0-9]*$", ErrorMessage = "Not a valid Phone")]
         public string ContactNumber { get; set; }
 
-        public string CardNumber { get; set; }
-
         [Required]
         [DataType(DataType.MultilineText)]
         public string Address { get; set; }
+
+        public string CardNumber { get; set; }
+
         public DateTime SubscribeDate { get; set; }
+
         [Display(Name = "Package")]
         public int PackageId { get; set; }
 
